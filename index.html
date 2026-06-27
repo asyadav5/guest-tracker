@@ -248,7 +248,7 @@ function changeCount(id, d) {
 // ── ACTIONS ───────────────────────────────────────────────────────────────────
 async function toggleGuest(id) {
   guests = guests.map(function(g){ return g.id!==id?g:Object.assign({},g,{status:g.status==="invited"?"pending":"invited"}); });
-  render(); await saveData();
+  renderGuestArea(); await saveData();
 }
 
 async function deleteGuest(id) {
@@ -281,7 +281,7 @@ async function saveEdit() {
 // ── SEARCH (no full re-render) ────────────────────────────────────────────────
 function handleSearch(val) {
   searchQ = val;
-  render();
+  renderGuestArea();
 }
 
 // ── RENDER GUEST AREA ONLY (for search/filter) ────────────────────────────────
@@ -387,7 +387,7 @@ function render() {
     html += '<div class="group-scroll">';
 
     // ALL card
-    html += '<div class="group-card'+(filterGroup==="all"?" active":"")+'" onclick="filterGroup=\'all\';render()">';
+    html += '<div class="group-card'+(filterGroup==="all"?" active":"")+'" onclick="filterGroup=\'all\';renderGuestArea()">';
     html += '<div class="group-card-name all">🌐 All</div>';
     html += '<div class="group-stat-row"><span class="group-stat-lbl">Families</span><span class="group-stat-val">'+total+'</span></div>';
     html += '<div class="group-stat-row"><span class="group-stat-lbl">People</span><span class="group-stat-val">'+totPeople+'</span></div>';
@@ -401,7 +401,7 @@ function render() {
       const gP = gs.adults+gs.kids;
       const gPct = gs.total ? Math.round((gs.invited/gs.total)*100) : 0;
       const isActive = filterGroup===gs.name;
-      html += '<div class="group-card'+(isActive?" active":"")+'" onclick="filterGroup=\''+esc(gs.name)+'\';render()" style="border-top:3px solid '+color+'">';
+      html += '<div class="group-card'+(isActive?" active":"")+'" onclick="filterGroup=\''+esc(gs.name)+'\';renderGuestArea()" style="border-top:3px solid '+color+'">';
       html += '<div class="group-card-name" style="color:'+color+'">'+esc(gs.name)+'</div>';
       html += '<div class="group-stat-row"><span class="group-stat-lbl">Families</span><span class="group-stat-val">'+gs.total+'</span></div>';
       html += '<div class="group-stat-row"><span class="group-stat-lbl">People</span><span class="group-stat-val">'+gP+'</span></div>';
@@ -420,11 +420,11 @@ function render() {
   html += '<div class="filter-scroll">';
   [["all","All"],["pending","⏳ Pending"],["invited","✅ Invited"],["all-m","Mandatory"],["all-o","Optional"]].forEach(function(f) {
     if (f[0]==="all-m") {
-      html += '<button class="fpill'+(filterPrio==="Mandatory"?" active":"")+'" onclick="filterPrio=(filterPrio===\'Mandatory\'?\'all\':\'Mandatory\');render()">🔴 Mandatory</button>';
+      html += '<button class="fpill'+(filterPrio==="Mandatory"?" active":"")+'" onclick="filterPrio=filterPrio===\'Mandatory\'?\'all\':\'Mandatory\';renderGuestArea()">🔴 Mandatory</button>';
     } else if (f[0]==="all-o") {
-      html += '<button class="fpill'+(filterPrio==="Optional"?" active":"")+'" onclick="filterPrio=(filterPrio===\'Optional\'?\'all\':\'Optional\');render()">🔵 Optional</button>';
+      html += '<button class="fpill'+(filterPrio==="Optional"?" active":"")+'" onclick="filterPrio=filterPrio===\'Optional\'?\'all\':\'Optional\';renderGuestArea()">🔵 Optional</button>';
     } else {
-      html += '<button class="fpill'+(filterStatus===f[0]?" active":"")+'" onclick="filterStatus=\''+f[0]+'\';render()">'+f[1]+'</button>';
+      html += '<button class="fpill'+(filterStatus===f[0]?" active":"")+'" onclick="filterStatus=\''+f[0]+'\';renderGuestArea()">'+f[1]+'</button>';
     }
   });
   html += '</div>';
