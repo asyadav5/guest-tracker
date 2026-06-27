@@ -7,41 +7,67 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F5F7FC; min-height: 100vh; }
+
+  /* HEADER */
   .header { background: linear-gradient(135deg, #1A2E5A 0%, #2C4F9E 100%); padding: 24px 20px 20px; color: #fff; }
-  .header-inner { max-width: 700px; margin: 0 auto; }
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .header-inner { max-width: 720px; margin: 0 auto; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
   .header-eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.55; margin-bottom: 2px; }
   .header h1 { font-size: 22px; font-weight: 800; }
-  .btn-settings { background: rgba(255,255,255,0.12); border: none; color: #fff; border-radius: 8px; padding: 8px 14px; font-size: 12px; cursor: pointer; font-weight: 600; }
-  .stats { display: flex; gap: 18px; margin-top: 16px; flex-wrap: wrap; }
-  .stat { text-align: center; }
-  .stat-val { font-size: 24px; font-weight: 800; line-height: 1; }
-  .stat-lbl { font-size: 10px; opacity: 0.6; margin-top: 1px; }
+  .header-subtitle { font-size: 12px; opacity: 0.55; margin-top: 2px; }
+
+  /* STATS GRID */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 18px; }
+  .stat-card { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 12px; text-align: center; }
+  .stat-val { font-size: 26px; font-weight: 800; line-height: 1; }
+  .stat-lbl { font-size: 10px; opacity: 0.65; margin-top: 3px; }
+  .stat-sub { font-size: 11px; opacity: 0.5; margin-top: 2px; }
+
+  /* HEADCOUNT ROW */
+  .headcount-row { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .hc-pill { background: rgba(255,255,255,0.12); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+
+  /* PROGRESS */
   .progress-bar-bg { margin-top: 14px; background: rgba(255,255,255,0.15); border-radius: 10px; height: 6px; overflow: hidden; }
   .progress-bar-fill { height: 100%; background: #7EFFA0; border-radius: 10px; transition: width 0.4s; }
   .progress-pct { font-size: 10px; opacity: 0.5; margin-top: 3px; }
-  .main { max-width: 700px; margin: 0 auto; padding: 18px 14px; }
-  .search-box { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #DDE3EE; font-size: 13px; outline: none; font-family: inherit; color: #1A2236; margin-bottom: 12px; }
-  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-  .pill { padding: 5px 13px; border-radius: 20px; border: 1.5px solid #DDE3EE; background: #fff; color: #7A8BA6; font-weight: 500; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+
+  /* MAIN */
+  .main { max-width: 720px; margin: 0 auto; padding: 18px 14px; }
+
+  /* SEARCH */
+  .search-box { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #DDE3EE; font-size: 13px; outline: none; font-family: inherit; color: #1A2236; margin-bottom: 12px; background: #fff; }
+
+  /* FILTERS */
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .pill { padding: 5px 13px; border-radius: 20px; border: 1.5px solid #DDE3EE; background: #fff; color: #7A8BA6; font-weight: 500; font-size: 12px; cursor: pointer; }
   .pill.active { border-color: #3B6FD4; background: #EBF0FF; color: #2450B0; font-weight: 700; }
-  .divider { width: 1px; background: #DDE3EE; margin: 0 2px; }
-  .btn-bulk-wa { width: 100%; padding: 10px; border-radius: 10px; border: none; background: #25D366; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
+  .pill-divider { width: 1px; background: #DDE3EE; margin: 0 2px; align-self: stretch; }
+
+  /* ADD FORM */
   .btn-add-ghost { width: 100%; padding: 11px; border-radius: 10px; border: 2px dashed #C5CDE0; background: transparent; color: #5A6A8A; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 14px; font-family: inherit; }
-  .add-form { background: #fff; border-radius: 12px; padding: 16px; border: 1.5px solid #DDE3EE; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-  .add-form h3 { font-size: 13px; color: #1A2236; margin-bottom: 10px; }
+  .add-form { background: #fff; border-radius: 12px; padding: 18px; border: 1.5px solid #DDE3EE; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .add-form h3 { font-size: 13px; color: #1A2236; margin-bottom: 12px; font-weight: 700; }
   .form-row { display: flex; gap: 8px; margin-bottom: 8px; }
   .form-input { padding: 9px 12px; border-radius: 8px; border: 1.5px solid #DDE3EE; font-size: 13px; outline: none; width: 100%; font-family: inherit; color: #1A2236; }
-  .form-actions { display: flex; gap: 8px; margin-top: 4px; }
+  .form-label { font-size: 11px; font-weight: 600; color: #7A8BA6; margin-bottom: 4px; display: block; }
+  .count-input { display: flex; align-items: center; gap: 0; border: 1.5px solid #DDE3EE; border-radius: 8px; overflow: hidden; background: #fff; }
+  .count-input input { width: 48px; text-align: center; border: none; font-size: 14px; font-weight: 700; color: #1A2236; outline: none; font-family: inherit; padding: 8px 0; }
+  .count-btn { background: #F1F4FA; border: none; width: 32px; height: 38px; font-size: 18px; cursor: pointer; color: #2C4F9E; font-weight: 700; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .count-btn:hover { background: #DDE8FF; }
+  .form-actions { display: flex; gap: 8px; margin-top: 12px; }
   .btn-primary { flex: 1; padding: 10px; border-radius: 8px; border: none; background: #2C4F9E; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; font-family: inherit; }
   .btn-secondary { padding: 10px 16px; border-radius: 8px; border: 1.5px solid #DDE3EE; background: #fff; color: #7A8BA6; font-weight: 600; font-size: 13px; cursor: pointer; font-family: inherit; }
-  .guest-card { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #E8ECF2; background: #fff; margin-bottom: 8px; }
+  .section-label { font-size: 11px; font-weight: 700; color: #A0AABC; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; margin-top: 4px; }
+
+  /* GUEST CARD */
+  .guest-card { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #E8ECF2; background: #fff; margin-bottom: 8px; transition: all 0.2s; }
   .guest-card.invited { background: #F6FFF8; border-color: #A8E6C3; }
-  .check-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #BFC8D6; background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; transition: all 0.2s; }
+  .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #BFC8D6; background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #fff; transition: all 0.2s; }
   .check-btn.checked { border-color: #27AE60; background: #27AE60; }
   .guest-info { flex: 1; min-width: 0; }
   .guest-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .guest-name { font-weight: 600; font-size: 14px; color: #1A2236; }
+  .guest-name { font-weight: 700; font-size: 14px; color: #1A2236; }
   .badge { border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
   .badge-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
   .badge-mandatory { background: #FFF0F0; color: #C0392B; }
@@ -49,73 +75,95 @@
   .badge-optional { background: #F0F4FF; color: #2C5282; }
   .badge-optional .badge-dot { background: #4A90D9; }
   .guest-group { font-size: 11px; color: #7A8BA6; background: #F1F4FA; border-radius: 10px; padding: 1px 8px; }
-  .guest-phone { font-size: 11px; color: #7A8BA6; margin-top: 2px; }
-  .guest-wa-sent { font-size: 10px; color: #27AE60; margin-top: 1px; }
+  .guest-meta { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+  .guest-meta-item { font-size: 12px; color: #7A8BA6; display: flex; align-items: center; gap: 3px; }
+  .guest-meta-item strong { color: #1A2236; font-weight: 700; }
+  .guest-total { font-size: 11px; background: #FFF8E8; color: #B7791F; border-radius: 8px; padding: 1px 8px; font-weight: 700; }
   .guest-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
-  .btn-wa { background: #25D366; border: none; color: #fff; border-radius: 8px; padding: 6px 10px; font-size: 16px; cursor: pointer; line-height: 1; }
   .btn-delete { background: #FFF0F0; border: none; color: #E74C3C; border-radius: 8px; padding: 6px 10px; font-size: 15px; cursor: pointer; line-height: 1; }
+  .btn-edit { background: #F1F4FA; border: none; color: #2C4F9E; border-radius: 8px; padding: 6px 10px; font-size: 15px; cursor: pointer; line-height: 1; }
+
+  /* EMPTY */
   .empty { text-align: center; padding: 48px 24px; color: #A0AABC; font-size: 14px; }
-  .footer { text-align: center; margin-top: 20px; font-size: 11px; color: #B0BAD0; }
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
+
+  /* FOOTER */
+  .footer { text-align: center; margin-top: 20px; font-size: 11px; color: #B0BAD0; padding-bottom: 32px; }
+
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
   .modal { background: #fff; border-radius: 16px; padding: 24px; max-width: 420px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-  .modal h2 { font-size: 16px; font-weight: 700; color: #1A2236; margin-bottom: 12px; }
-  .modal p { font-size: 14px; color: #5A6A8A; margin-bottom: 16px; }
-  .modal label { display: block; font-size: 12px; font-weight: 600; color: #5A6A8A; margin-bottom: 5px; }
-  .modal input, .modal select, .modal textarea { padding: 9px 12px; border-radius: 8px; border: 1.5px solid #DDE3EE; font-size: 13px; outline: none; width: 100%; font-family: inherit; color: #1A2236; margin-bottom: 14px; }
-  .modal textarea { resize: vertical; }
-  .modal-hint { font-size: 11px; color: #A0AABC; margin-top: -10px; margin-bottom: 14px; }
+  .modal h2 { font-size: 16px; font-weight: 700; color: #1A2236; margin-bottom: 8px; }
+  .modal p { font-size: 14px; color: #5A6A8A; margin-bottom: 20px; }
   .modal-actions { display: flex; gap: 10px; }
-  .btn-danger { flex: 1; padding: 10px; border-radius: 8px; border: none; background: #E74C3C; color: #fff; font-weight: 700; cursor: pointer; font-family: inherit; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); color: #fff; padding: 10px 22px; border-radius: 24px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 999; white-space: nowrap; }
+  .btn-danger { flex: 1; padding: 10px; border-radius: 8px; border: none; background: #E74C3C; color: #fff; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 13px; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); color: #fff; padding: 10px 22px; border-radius: 24px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 999; white-space: nowrap; pointer-events: none; }
   .toast.success { background: #1A2E5A; }
   .toast.error { background: #C0392B; }
-  .loading { display: flex; align-items: center; justify-content: center; height: 100vh; color: #7A8BA6; font-size: 14px; }
-  code { background: #F1F4FA; padding: 1px 4px; border-radius: 4px; font-size: 11px; }
-  @media (max-width: 480px) { .header h1 { font-size: 18px; } .stat-val { font-size: 20px; } }
+
+  /* LOADING */
+  .loading { display: flex; align-items: center; justify-content: center; height: 100vh; color: #7A8BA6; font-size: 14px; flex-direction: column; gap: 10px; }
+  .spinner { width: 28px; height: 28px; border: 3px solid #DDE3EE; border-top-color: #2C4F9E; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 500px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .header h1 { font-size: 18px; }
+    .stat-val { font-size: 22px; }
+  }
 </style>
 </head>
 <body>
-<div id="app"><div class="loading">Loading guest list…</div></div>
+<div id="app"><div class="loading"><div class="spinner"></div>Loading guest list…</div></div>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby_W3eMgdsKBWVDO4pRVPVUt_YpF8v1NCTdaNa1AoZrDq0QQbCfMBTLkLN56iJyoDII/exec";
-const DEFAULT_MSG = "🎉 You're Invited!\n\nDear {name},\n\nWe joyfully invite you to celebrate with us.\nPlease watch our invitation video:\n{videoLink}\n\nLooking forward to your presence! 🙏";
 
 let guests = [];
-let settings = { videoLink: "", message: DEFAULT_MSG, countryCode: "+971" };
 let filterStatus = "all", filterPrio = "all", filterGroup = "all", searchQ = "";
-let showForm = false, showSettings = false, confirmDeleteId = null, saving = false;
+let showForm = false, saving = false;
+let confirmDeleteId = null, editGuest = null;
+let formData = { name:"", priority:"Mandatory", group:"", adults:1, kids:0 };
 
+// ── Data ──────────────────────────────────────────────────────────────────────
 async function loadData() {
   try {
     const res = await fetch(SCRIPT_URL + "?nocache=" + Date.now());
     const rows = await res.json();
     if (!rows || rows.length < 2) { guests = []; return; }
     const dataRows = rows.slice(1);
-    if (dataRows.length && dataRows[0][0] === "__SETTINGS__") {
-      try { settings = Object.assign({}, settings, JSON.parse(dataRows[0][1])); } catch(_) {}
-      guests = dataRows.slice(1).filter(r => r[0]).map(rowToGuest);
-    } else {
-      guests = dataRows.filter(r => r[0]).map(rowToGuest);
-    }
+    const start = (dataRows[0] && dataRows[0][0] === "__SETTINGS__") ? 1 : 0;
+    guests = dataRows.slice(start).filter(function(r){ return r[0]; }).map(rowToGuest);
   } catch(e) { showToast("Could not load — check connection", "error"); }
 }
 
 function rowToGuest(r) {
-  return { id: String(r[0]), name: r[1]||"", priority: r[2]||"Mandatory", group: r[3]||"", phone: r[4]||"", status: r[5]||"pending", waAt: r[6]||"" };
+  return {
+    id: String(r[0]),
+    name: r[1]||"",
+    priority: r[2]||"Mandatory",
+    group: r[3]||"",
+    status: r[4]||"pending",
+    adults: parseInt(r[5])||1,
+    kids: parseInt(r[6])||0
+  };
 }
-function guestToRow(g) { return [g.id, g.name, g.priority, g.group, g.phone, g.status, g.waAt]; }
+
+function guestToRow(g) {
+  return [g.id, g.name, g.priority, g.group, g.status, g.adults, g.kids];
+}
 
 async function saveData() {
   saving = true; render();
-  const headers = ["id","name","priority","group","phone","status","waAt"];
-  const settingsRow = ["__SETTINGS__", JSON.stringify(settings),"","","","",""];
-  const rows = [headers, settingsRow, ...guests.map(guestToRow)];
+  const headers = ["id","name","priority","group","status","adults","kids"];
+  const rows = [headers, ...guests.map(guestToRow)];
   try { await fetch(SCRIPT_URL, { method:"POST", body: JSON.stringify(rows) }); }
   catch(e) { showToast("Save failed", "error"); }
   saving = false; render();
 }
 
+// ── Toast ─────────────────────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg, type) {
   type = type || "success";
@@ -128,12 +176,7 @@ function showToast(msg, type) {
   toastTimer = setTimeout(function(){ el.remove(); }, 2800);
 }
 
-function buildWALink(g) {
-  const phone = (settings.countryCode + g.phone).replace(/[^0-9]/g,"");
-  const msg = settings.message.replace("{name}", g.name).replace("{videoLink}", settings.videoLink || "[video link]");
-  return "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
-}
-
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function getFiltered() {
   return guests.filter(function(g) {
     if (filterStatus === "pending" && g.status !== "pending") return false;
@@ -149,127 +192,146 @@ function getGroups() {
   return ["all"].concat(Array.from(new Set(guests.map(function(g){ return g.group; }).filter(Boolean))));
 }
 
-async function toggleGuest(id) {
-  guests = guests.map(function(g){ return g.id !== id ? g : Object.assign({},g,{status: g.status==="invited"?"pending":"invited"}); });
-  render(); await saveData();
+function escHtml(s) {
+  return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
-async function sendWA(id) {
-  const g = guests.find(function(x){ return x.id===id; });
-  if (!g) return;
-  guests = guests.map(function(x){ return x.id!==id ? x : Object.assign({},x,{status:"invited",waAt:new Date().toLocaleDateString()}); });
-  render();
-  window.open(buildWALink(g), "_blank");
-  showToast("WhatsApp opened for " + g.name + " ✓");
-  await saveData();
+// ── Actions ───────────────────────────────────────────────────────────────────
+async function toggleGuest(id) {
+  guests = guests.map(function(g){ return g.id!==id?g:Object.assign({},g,{status:g.status==="invited"?"pending":"invited"}); });
+  render(); await saveData();
 }
 
 async function deleteGuest(id) {
   const g = guests.find(function(x){ return x.id===id; });
   guests = guests.filter(function(x){ return x.id!==id; });
   confirmDeleteId = null; render();
-  showToast((g ? g.name : "Guest") + " removed");
+  showToast((g?g.name:"Guest")+" removed");
   await saveData();
 }
 
 async function addGuest() {
   const name = document.getElementById("f-name").value.trim();
   if (!name) { showToast("Please enter a name","error"); return; }
-  const ng = { id: Date.now().toString(), name: name, priority: document.getElementById("f-priority").value, group: document.getElementById("f-group").value.trim(), phone: document.getElementById("f-phone").value.trim(), status: "pending", waAt: "" };
-  guests.push(ng); showForm = false; render();
-  showToast(ng.name + " added");
-  await saveData();
+  const adults = parseInt(document.getElementById("f-adults").value)||1;
+  const kids   = parseInt(document.getElementById("f-kids").value)||0;
+  const ng = {
+    id: Date.now().toString(), name: name,
+    priority: document.getElementById("f-priority").value,
+    group: document.getElementById("f-group").value.trim(),
+    status: "pending", adults: adults, kids: kids
+  };
+  guests.push(ng); showForm=false; formData={name:"",priority:"Mandatory",group:"",adults:1,kids:0};
+  render(); showToast(ng.name+" added"); await saveData();
 }
 
-async function bulkWA() {
-  const pending = getFiltered().filter(function(g){ return g.status==="pending" && g.phone; });
-  if (!pending.length) { showToast("No pending guests with phone numbers","error"); return; }
-  const ids = pending.map(function(g){ return g.id; });
-  guests = guests.map(function(g){ return ids.indexOf(g.id) >= 0 ? Object.assign({},g,{status:"invited",waAt:new Date().toLocaleDateString()}) : g; });
-  render();
-  window.open(buildWALink(pending[0]), "_blank");
-  showToast("WhatsApp opened for " + pending[0].name + " — " + pending.length + " marked invited");
-  await saveData();
+async function saveEdit() {
+  if (!editGuest) return;
+  const name = document.getElementById("e-name").value.trim();
+  if (!name) { showToast("Please enter a name","error"); return; }
+  const adults = parseInt(document.getElementById("e-adults").value)||1;
+  const kids   = parseInt(document.getElementById("e-kids").value)||0;
+  guests = guests.map(function(g){
+    if (g.id !== editGuest.id) return g;
+    return Object.assign({},g,{
+      name: name,
+      priority: document.getElementById("e-priority").value,
+      group: document.getElementById("e-group").value.trim(),
+      adults: adults, kids: kids
+    });
+  });
+  editGuest = null; render(); showToast("Guest updated"); await saveData();
 }
 
-async function saveSettings() {
-  settings.videoLink = document.getElementById("s-video").value.trim();
-  settings.message   = document.getElementById("s-msg").value;
-  settings.countryCode = document.getElementById("s-cc").value.trim();
-  showSettings = false; render();
-  showToast("Settings saved ✓");
-  await saveData();
+function changeCount(inputId, delta) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  const val = Math.max(0, (parseInt(inp.value)||0) + delta);
+  inp.value = val;
 }
 
-function escHtml(s) {
-  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-
+// ── RENDER ────────────────────────────────────────────────────────────────────
 function render() {
   const filtered = getFiltered();
   const total = guests.length;
-  const invitedCount = guests.filter(function(g){ return g.status==="invited"; }).length;
-  const mandatoryLeft = guests.filter(function(g){ return g.priority==="Mandatory" && g.status==="pending"; }).length;
-  const withPhone = guests.filter(function(g){ return g.phone; }).length;
+  const invitedCount  = guests.filter(function(g){ return g.status==="invited"; }).length;
+  const mandatoryLeft = guests.filter(function(g){ return g.priority==="Mandatory"&&g.status==="pending"; }).length;
+  const totalAdults   = guests.reduce(function(s,g){ return s+g.adults; },0);
+  const totalKids     = guests.reduce(function(s,g){ return s+g.kids; },0);
+  const totalPeople   = totalAdults + totalKids;
+  const invAdults     = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.adults; },0);
+  const invKids       = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.kids; },0);
   const pct = total ? Math.round((invitedCount/total)*100) : 0;
   const groups = getGroups();
-  const pendingWithPhone = filtered.filter(function(g){ return g.status==="pending" && g.phone; }).length;
 
   let html = "";
 
   // HEADER
   html += '<div class="header"><div class="header-inner">';
-  html += '<div class="header-top"><div><div class="header-eyebrow">Family Event</div><h1>Guest Invitation Tracker</h1></div>';
-  html += '<button class="btn-settings" onclick="showSettings=true;render()">⚙️ Settings</button></div>';
-  html += '<div class="stats">';
-  html += '<div class="stat"><div class="stat-val">'+total+'</div><div class="stat-lbl">Total</div></div>';
-  html += '<div class="stat"><div class="stat-val" style="color:#7EFFA0">'+invitedCount+'</div><div class="stat-lbl">Invited</div></div>';
-  html += '<div class="stat"><div class="stat-val" style="color:#FFD580">'+(total-invitedCount)+'</div><div class="stat-lbl">Pending</div></div>';
-  html += '<div class="stat"><div class="stat-val" style="color:#FF9898">'+mandatoryLeft+'</div><div class="stat-lbl">Mandatory Left</div></div>';
-  html += '<div class="stat"><div class="stat-val" style="color:#A0C4FF">'+withPhone+'</div><div class="stat-lbl">With Phone</div></div>';
+  html += '<div class="header-top"><div>';
+  html += '<div class="header-eyebrow">Family Event</div>';
+  html += '<h1>🎉 Guest Invitation Tracker</h1>';
+  html += '<div class="header-subtitle">Shared family list — updates live for everyone</div>';
+  html += '</div></div>';
+
+  // STATS GRID
+  html += '<div class="stats-grid">';
+  html += '<div class="stat-card"><div class="stat-val">'+total+'</div><div class="stat-lbl">Guest Families</div></div>';
+  html += '<div class="stat-card"><div class="stat-val" style="color:#7EFFA0">'+invitedCount+'</div><div class="stat-lbl">Invited</div><div class="stat-sub">'+mandatoryLeft+' mandatory left</div></div>';
+  html += '<div class="stat-card"><div class="stat-val" style="color:#FFD580">'+(total-invitedCount)+'</div><div class="stat-lbl">Pending</div></div>';
+  html += '<div class="stat-card"><div class="stat-val" style="color:#A0C4FF">'+totalPeople+'</div><div class="stat-lbl">Total People</div><div class="stat-sub">'+totalAdults+' adults · '+totalKids+' kids</div></div>';
   html += '</div>';
+
+  // HEADCOUNT ROW
+  html += '<div class="headcount-row">';
+  html += '<div class="hc-pill">👨‍👩‍👦 Expected: <strong style="color:#7EFFA0">'+totalPeople+' people</strong></div>';
+  html += '<div class="hc-pill">✅ Confirmed: <strong style="color:#7EFFA0">'+(invAdults+invKids)+'</strong> ('+(invAdults)+' adults · '+(invKids)+' kids)</div>';
+  html += '</div>';
+
+  // PROGRESS
   html += '<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:'+pct+'%"></div></div>';
-  html += '<div class="progress-pct">'+pct+'% invited</div>';
+  html += '<div class="progress-pct">'+pct+'% families invited</div>';
   html += '</div></div>';
 
   // MAIN
   html += '<div class="main">';
-  html += '<input class="search-box" placeholder="🔍  Search guest by name…" value="'+escHtml(searchQ)+'" oninput="searchQ=this.value;render()" />';
+
+  // SEARCH
+  html += '<input class="search-box" placeholder="🔍  Search by name…" value="'+escHtml(searchQ)+'" oninput="searchQ=this.value;render()" />';
 
   // FILTERS
   html += '<div class="filters">';
-  ["all","pending","invited"].forEach(function(f){
-    const lbl = f==="all"?"All":f==="pending"?"⏳ Pending":"✅ Invited";
-    html += '<button class="pill'+(filterStatus===f?' active':'')+'" onclick="filterStatus=\''+f+'\';render()">'+lbl+'</button>';
+  [["all","All"],["pending","⏳ Pending"],["invited","✅ Invited"]].forEach(function(f){
+    html += '<button class="pill'+(filterStatus===f[0]?' active':'')+'" onclick="filterStatus=\''+f[0]+'\';render()">'+f[1]+'</button>';
   });
-  html += '<div class="divider"></div>';
-  ["all","Mandatory","Optional"].forEach(function(f){
-    const lbl = f==="all"?"All Types":f;
-    html += '<button class="pill'+(filterPrio===f?' active':'')+'" onclick="filterPrio=\''+f+'\';render()">'+lbl+'</button>';
+  html += '<div class="pill-divider"></div>';
+  [["all","All Types"],["Mandatory","Mandatory"],["Optional","Optional"]].forEach(function(f){
+    html += '<button class="pill'+(filterPrio===f[0]?' active':'')+'" onclick="filterPrio=\''+f[0]+'\';render()">'+f[1]+'</button>';
   });
   if (groups.length > 1) {
-    html += '<div class="divider"></div>';
+    html += '<div class="pill-divider"></div>';
     groups.forEach(function(g){
       html += '<button class="pill'+(filterGroup===g?' active':'')+'" onclick="filterGroup=\''+escHtml(g)+'\';render()">'+(g==="all"?"All Groups":escHtml(g))+'</button>';
     });
   }
   html += '</div>';
 
-  // BULK WA
-  if (pendingWithPhone > 0) {
-    html += '<button class="btn-bulk-wa" onclick="bulkWA()">📤 Send WhatsApp to All Pending ('+pendingWithPhone+')</button>';
-  }
-
   // ADD FORM
   if (showForm) {
-    html += '<div class="add-form"><h3>New Guest</h3>';
-    html += '<div class="form-row"><input id="f-name" class="form-input" placeholder="Full Name *" /></div>';
-    html += '<div class="form-row"><select id="f-priority" class="form-input" style="flex:1"><option>Mandatory</option><option>Optional</option></select>';
-    html += '<input id="f-group" class="form-input" placeholder="Group / Family" style="flex:2" /></div>';
-    html += '<div class="form-row"><input class="form-input" style="width:72px;flex-shrink:0" value="'+escHtml(settings.countryCode)+'" oninput="settings.countryCode=this.value" />';
-    html += '<input id="f-phone" class="form-input" placeholder="Phone (for WhatsApp)" style="flex:1" /></div>';
-    html += '<div class="form-actions"><button class="btn-primary" onclick="addGuest()">Add Guest</button>';
-    html += '<button class="btn-secondary" onclick="showForm=false;render()">Cancel</button></div></div>';
+    html += '<div class="add-form">';
+    html += '<h3>➕ New Guest</h3>';
+    html += '<div class="form-row"><input id="f-name" class="form-input" placeholder="Full Name *" value="'+escHtml(formData.name)+'" /></div>';
+    html += '<div class="form-row">';
+    html += '<select id="f-priority" class="form-input" style="flex:1"><option'+(formData.priority==="Mandatory"?" selected":"")+'>Mandatory</option><option'+(formData.priority==="Optional"?" selected":"")+'>Optional</option></select>';
+    html += '<input id="f-group" class="form-input" placeholder="Group / Family" style="flex:2" value="'+escHtml(formData.group)+'" />';
+    html += '</div>';
+    html += '<div class="section-label" style="margin-top:8px">Headcount</div>';
+    html += '<div class="form-row">';
+    html += '<div style="flex:1"><label class="form-label">👨‍👩‍👦 Adults</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'f-adults\',-1)">−</button><input id="f-adults" type="number" min="0" value="'+formData.adults+'" /><button class="count-btn" onclick="changeCount(\'f-adults\',1)">+</button></div></div>';
+    html += '<div style="flex:1"><label class="form-label">👶 Kids (under 12)</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'f-kids\',-1)">−</button><input id="f-kids" type="number" min="0" value="'+formData.kids+'" /><button class="count-btn" onclick="changeCount(\'f-kids\',1)">+</button></div></div>';
+    html += '</div>';
+    html += '<div class="form-actions"><button class="btn-primary" onclick="addGuest()">Add Guest</button><button class="btn-secondary" onclick="showForm=false;render()">Cancel</button></div>';
+    html += '</div>';
   } else {
     html += '<button class="btn-add-ghost" onclick="showForm=true;render()">+ Add Guest</button>';
   }
@@ -279,25 +341,31 @@ function render() {
     html += '<div class="empty">'+(guests.length===0?"No guests yet — add your first guest above.":"No guests match your filters.")+'</div>';
   } else {
     filtered.forEach(function(g) {
-      const inv = g.status === "invited";
+      const inv = g.status==="invited";
+      const totalG = g.adults + g.kids;
       html += '<div class="guest-card'+(inv?' invited':'')+'">';
-      html += '<button class="check-btn'+(inv?' checked':'')+'" onclick="toggleGuest(\''+g.id+'\')">'+(inv?'✓':'')+'</button>';
-      html += '<div class="guest-info"><div class="guest-name-row">';
+      html += '<button class="check-btn'+(inv?' checked':'')+'" onclick="toggleGuest(\''+g.id+'\')" title="'+(inv?'Mark as Pending':'Mark as Invited')+'">'+(inv?'✓':'')+'</button>';
+      html += '<div class="guest-info">';
+      html += '<div class="guest-name-row">';
       html += '<span class="guest-name">'+escHtml(g.name)+'</span>';
       html += '<span class="badge badge-'+g.priority.toLowerCase()+'"><span class="badge-dot"></span>'+escHtml(g.priority)+'</span>';
       if (g.group) html += '<span class="guest-group">'+escHtml(g.group)+'</span>';
       html += '</div>';
-      if (g.phone) html += '<div class="guest-phone">📱 '+escHtml(g.phone)+'</div>';
-      if (g.waAt) html += '<div class="guest-wa-sent">WhatsApp sent · '+escHtml(g.waAt)+'</div>';
+      html += '<div class="guest-meta">';
+      html += '<span class="guest-meta-item">👨‍👩‍👦 <strong>'+g.adults+'</strong> adult'+(g.adults!==1?'s':'')+'</span>';
+      if (g.kids > 0) html += '<span class="guest-meta-item">👶 <strong>'+g.kids+'</strong> kid'+(g.kids!==1?'s':'')+'</span>';
+      html += '<span class="guest-total">'+totalG+' '+(totalG===1?'person':'people')+'</span>';
+      html += '</div>';
       html += '</div>';
       html += '<div class="guest-actions">';
-      if (g.phone) html += '<button class="btn-wa" onclick="sendWA(\''+g.id+'\')" title="Send WhatsApp">💬</button>';
+      html += '<button class="btn-edit" onclick="editGuest='+JSON.stringify(g).replace(/"/g,"&quot;")+';render()" title="Edit">✏️</button>';
       html += '<button class="btn-delete" onclick="confirmDeleteId=\''+g.id+'\';render()" title="Remove">🗑️</button>';
-      html += '</div></div>';
+      html += '</div>';
+      html += '</div>';
     });
   }
 
-  html += '<div class="footer">'+(saving?"Saving…":"Showing "+filtered.length+" of "+total+" guests")+'</div>';
+  html += '<div class="footer">'+(saving?'Saving…':'Showing '+filtered.length+' of '+total+' guests · '+totalPeople+' total people')+'</div>';
   html += '</div>';
 
   // DELETE MODAL
@@ -305,34 +373,38 @@ function render() {
     const g = guests.find(function(x){ return x.id===confirmDeleteId; });
     html += '<div class="modal-overlay"><div class="modal">';
     html += '<h2>Remove Guest?</h2>';
-    html += '<p>Are you sure you want to remove <strong>'+escHtml(g?g.name:"this guest")+'</strong> from the list?</p>';
+    html += '<p>Remove <strong>'+escHtml(g?g.name:"this guest")+'</strong> from the list? This cannot be undone.</p>';
     html += '<div class="modal-actions">';
     html += '<button class="btn-danger" onclick="deleteGuest(\''+confirmDeleteId+'\')">Yes, Remove</button>';
     html += '<button class="btn-secondary" onclick="confirmDeleteId=null;render()">Cancel</button>';
     html += '</div></div></div>';
   }
 
-  // SETTINGS MODAL
-  if (showSettings) {
+  // EDIT MODAL
+  if (editGuest) {
+    const g = editGuest;
     html += '<div class="modal-overlay"><div class="modal">';
-    html += '<h2>⚙️ Settings</h2>';
-    html += '<label>Default Country Code</label>';
-    html += '<input id="s-cc" value="'+escHtml(settings.countryCode)+'" placeholder="+971" />';
-    html += '<label>🎬 Invitation Video Link</label>';
-    html += '<input id="s-video" value="'+escHtml(settings.videoLink)+'" placeholder="https://youtube.com/... or Drive link" />';
-    html += '<p class="modal-hint">This link goes into every WhatsApp message automatically</p>';
-    html += '<label>💬 WhatsApp Message Template</label>';
-    html += '<p class="modal-hint">Use <code>{name}</code> for guest name and <code>{videoLink}</code> for the video link</p>';
-    html += '<textarea id="s-msg" rows="7">'+escHtml(settings.message)+'</textarea>';
-    html += '<div class="modal-actions">';
-    html += '<button class="btn-primary" onclick="saveSettings()">Save Settings</button>';
-    html += '<button class="btn-secondary" onclick="showSettings=false;render()">Close</button>';
+    html += '<h2>✏️ Edit Guest</h2>';
+    html += '<div style="margin-bottom:8px"><label class="form-label">Name</label><input id="e-name" class="form-input" value="'+escHtml(g.name)+'" style="margin-bottom:0" /></div>';
+    html += '<div class="form-row" style="margin-top:8px">';
+    html += '<div style="flex:1"><label class="form-label">Type</label><select id="e-priority" class="form-input"><option'+(g.priority==="Mandatory"?" selected":"")+'>Mandatory</option><option'+(g.priority==="Optional"?" selected":"")+'>Optional</option></select></div>';
+    html += '<div style="flex:2"><label class="form-label">Group</label><input id="e-group" class="form-input" value="'+escHtml(g.group)+'" /></div>';
+    html += '</div>';
+    html += '<div class="section-label">Headcount</div>';
+    html += '<div class="form-row">';
+    html += '<div style="flex:1"><label class="form-label">👨‍👩‍👦 Adults</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'e-adults\',-1)">−</button><input id="e-adults" type="number" min="0" value="'+g.adults+'" /><button class="count-btn" onclick="changeCount(\'e-adults\',1)">+</button></div></div>';
+    html += '<div style="flex:1"><label class="form-label">👶 Kids</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'e-kids\',-1)">−</button><input id="e-kids" type="number" min="0" value="'+g.kids+'" /><button class="count-btn" onclick="changeCount(\'e-kids\',1)">+</button></div></div>';
+    html += '</div>';
+    html += '<div class="modal-actions" style="margin-top:4px">';
+    html += '<button class="btn-primary" onclick="saveEdit()">Save Changes</button>';
+    html += '<button class="btn-secondary" onclick="editGuest=null;render()">Cancel</button>';
     html += '</div></div></div>';
   }
 
   document.getElementById("app").innerHTML = html;
 }
 
+// ── Init ──────────────────────────────────────────────────────────────────────
 (async function(){
   await loadData();
   render();
