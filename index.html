@@ -151,12 +151,11 @@ const SCRIPT_URL="https://script.google.com/macros/s/AKfycby_W3eMgdsKBWVDO4pRVPV
 const GC=["#3B6FD4","#27AE60","#E67E22","#8E44AD","#C0392B","#16A085","#2980B9","#D35400","#7D3C98","#1A5276"];
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-var guests=[], fStatus="all", fPrio="all", fGroup="all", searchQ="";
+var guests=[], fFilter="all", fGroup="all", searchQ="";
 var showForm=false, saving=false, confirmId=null, editG=null;
 
 // ── FILTER SETTERS (called from onclick) ──────────────────────────────────────
-function setStatus(v){ fStatus=v; render(); }
-function setPrio(v){   fPrio=v;   render(); }
+function setFilter(v){ fFilter=(fFilter===v?"all":v); render(); }
 function setGroup(v){  fGroup=v;  render(); }
 function setSearch(v){ searchQ=v; render(); }
 
@@ -206,10 +205,10 @@ function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").
 
 function filtered(){
   return guests.filter(function(g){
-    if(fStatus==="pending"&&g.status!=="pending") return false;
-    if(fStatus==="invited"&&g.status!=="invited") return false;
-    if(fPrio==="Mandatory"&&g.priority!=="Mandatory") return false;
-    if(fPrio==="Optional"&&g.priority!=="Optional") return false;
+    if(fFilter==="pending"&&g.status!=="pending") return false;
+    if(fFilter==="invited"&&g.status!=="invited") return false;
+    if(fFilter==="Mandatory"&&g.priority!=="Mandatory") return false;
+    if(fFilter==="Optional"&&g.priority!=="Optional") return false;
     if(fGroup!=="all"&&g.group!==fGroup) return false;
     if(searchQ&&g.name.toLowerCase().indexOf(searchQ.toLowerCase())===-1) return false;
     return true;
@@ -339,14 +338,14 @@ function render(){
   h+='<div class="fscroll">';
   // Status pills
   [["all","All"],["pending","⏳ Pending"],["invited","✅ Invited"]].forEach(function(f){
-    var on=fStatus===f[0];
+    var on=fFilter===f[0];
     h+='<button class="fp'+(on?" on":"")+'" onclick="setStatus(\''+f[0]+'\')">'+f[1]+'</button>';
   });
   // Priority pills
   [["Mandatory","🔴 Mandatory"],["Optional","🔵 Optional"]].forEach(function(f){
-    var on=fPrio===f[0];
+    var on=fFilter===f[0];
     var cls=on?(f[0]==="Mandatory"?" on-m":" on-o"):"";
-    h+='<button class="fp'+cls+'" onclick="setPrio(\''+(on?"all":f[0])+'\')">'+ f[1]+'</button>';
+    h+='<button class="fp'+cls+'" onclick="setFilter(\''+ f[0]+'\')">'+ f[1]+'</button>';
   });
   h+='</div>';
 
