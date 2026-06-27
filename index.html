@@ -2,122 +2,160 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <title>Guest Invitation Tracker</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F5F7FC; min-height: 100vh; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #F0F4FA; min-height: 100vh; font-size: 15px; }
 
-  /* HEADER */
-  .header { background: linear-gradient(135deg, #1A2E5A 0%, #2C4F9E 100%); padding: 24px 20px 20px; color: #fff; }
-  .header-inner { max-width: 720px; margin: 0 auto; }
+  /* ── HEADER ── */
+  .header { background: linear-gradient(135deg, #1A2E5A 0%, #2C4F9E 100%); padding: 20px 16px 18px; color: #fff; }
+  .header-inner { max-width: 680px; margin: 0 auto; }
   .header-eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.55; margin-bottom: 2px; }
-  .header h1 { font-size: 22px; font-weight: 800; }
-  .header-subtitle { font-size: 12px; opacity: 0.55; margin-top: 2px; }
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 18px; }
-  .stat-card { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 12px; text-align: center; }
-  .stat-val { font-size: 26px; font-weight: 800; line-height: 1; }
-  .stat-lbl { font-size: 10px; opacity: 0.65; margin-top: 3px; }
-  .stat-sub { font-size: 11px; opacity: 0.5; margin-top: 2px; }
-  .headcount-row { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
-  .hc-pill { background: rgba(255,255,255,0.12); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-  .progress-bar-bg { margin-top: 14px; background: rgba(255,255,255,0.15); border-radius: 10px; height: 6px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; background: #7EFFA0; border-radius: 10px; transition: width 0.4s; }
-  .progress-pct { font-size: 10px; opacity: 0.5; margin-top: 3px; }
+  .header h1 { font-size: 20px; font-weight: 800; line-height: 1.2; }
+  .header-subtitle { font-size: 12px; opacity: 0.5; margin-top: 3px; }
 
-  /* MAIN */
-  .main { max-width: 720px; margin: 0 auto; padding: 18px 14px; }
+  /* ── STATS ROW ── */
+  .stats-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 16px; }
+  .stat-card { background: rgba(255,255,255,0.12); border-radius: 12px; padding: 12px; text-align: center; }
+  .stat-val { font-size: 28px; font-weight: 900; line-height: 1; }
+  .stat-lbl { font-size: 11px; opacity: 0.65; margin-top: 3px; }
+  .stat-sub { font-size: 10px; opacity: 0.45; margin-top: 2px; }
 
-  /* GROUP SUMMARY CARDS */
-  .group-section-title { font-size: 11px; font-weight: 700; color: #A0AABC; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .group-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-bottom: 18px; }
-  .group-card { background: #fff; border-radius: 12px; padding: 12px 14px; border: 1.5px solid #E8ECF2; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
-  .group-card:hover { border-color: #3B6FD4; box-shadow: 0 2px 12px rgba(59,111,212,0.1); }
+  /* ── HEADCOUNT PILLS ── */
+  .hc-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .hc-pill { background: rgba(255,255,255,0.12); border-radius: 20px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
+
+  /* ── PROGRESS ── */
+  .prog-bg { margin-top: 14px; background: rgba(255,255,255,0.15); border-radius: 10px; height: 8px; overflow: hidden; }
+  .prog-fill { height: 100%; background: #7EFFA0; border-radius: 10px; transition: width 0.5s ease; }
+  .prog-lbl { font-size: 11px; opacity: 0.5; margin-top: 4px; }
+
+  /* ── MAIN ── */
+  .main { max-width: 680px; margin: 0 auto; padding: 16px 12px 40px; }
+
+  /* ── GROUP CARDS ── */
+  .section-title { font-size: 11px; font-weight: 700; color: #8A97B0; text-transform: uppercase; letter-spacing: 1px; margin: 4px 0 10px; }
+  .group-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-bottom: 16px; }
+  .group-scroll::-webkit-scrollbar { display: none; }
+  .group-card { flex-shrink: 0; width: 140px; background: #fff; border-radius: 14px; padding: 12px; border: 2px solid #E8ECF2; cursor: pointer; transition: all 0.2s; }
   .group-card.active { border-color: #3B6FD4; background: #EBF0FF; }
-  .group-card-name { font-size: 13px; font-weight: 700; color: #1A2236; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .group-card-stats { display: flex; flex-direction: column; gap: 3px; }
-  .group-card-row { display: flex; justify-content: space-between; align-items: center; }
-  .group-card-label { font-size: 11px; color: #7A8BA6; }
-  .group-card-val { font-size: 12px; font-weight: 700; color: #1A2236; }
-  .group-card-bar { height: 4px; background: #E8ECF2; border-radius: 4px; margin-top: 8px; overflow: hidden; }
-  .group-card-bar-fill { height: 100%; background: #27AE60; border-radius: 4px; transition: width 0.4s; }
-  .group-card-pct { font-size: 10px; color: #27AE60; font-weight: 700; margin-top: 3px; }
+  .group-card-name { font-size: 13px; font-weight: 800; color: #1A2236; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .group-card-name.all { color: #2C4F9E; }
+  .group-stat-row { display: flex; justify-content: space-between; margin-bottom: 3px; }
+  .group-stat-lbl { font-size: 11px; color: #8A97B0; }
+  .group-stat-val { font-size: 11px; font-weight: 700; color: #1A2236; }
+  .group-bar-bg { height: 4px; background: #E8ECF2; border-radius: 4px; margin-top: 8px; overflow: hidden; }
+  .group-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
+  .group-pct { font-size: 10px; font-weight: 700; margin-top: 3px; }
 
-  /* SEARCH */
-  .search-box { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #DDE3EE; font-size: 13px; outline: none; font-family: inherit; color: #1A2236; margin-bottom: 12px; background: #fff; }
+  /* ── SEARCH ── */
+  .search-wrap { position: relative; margin-bottom: 12px; }
+  .search-wrap .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; }
+  .search-box { width: 100%; padding: 12px 12px 12px 38px; border-radius: 12px; border: 1.5px solid #DDE3EE; font-size: 15px; outline: none; font-family: inherit; color: #1A2236; background: #fff; -webkit-appearance: none; }
+  .search-box:focus { border-color: #3B6FD4; }
 
-  /* FILTERS */
-  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-  .pill { padding: 5px 13px; border-radius: 20px; border: 1.5px solid #DDE3EE; background: #fff; color: #7A8BA6; font-weight: 500; font-size: 12px; cursor: pointer; }
-  .pill.active { border-color: #3B6FD4; background: #EBF0FF; color: #2450B0; font-weight: 700; }
-  .pill-divider { width: 1px; background: #DDE3EE; margin: 0 2px; align-self: stretch; }
+  /* ── FILTER PILLS ── */
+  .filter-scroll { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .filter-scroll::-webkit-scrollbar { display: none; }
+  .fpill { flex-shrink: 0; padding: 7px 14px; border-radius: 20px; border: 1.5px solid #DDE3EE; background: #fff; color: #7A8BA6; font-weight: 500; font-size: 13px; cursor: pointer; white-space: nowrap; }
+  .fpill.active { border-color: #3B6FD4; background: #3B6FD4; color: #fff; font-weight: 700; }
 
-  /* ADD FORM */
-  .btn-add-ghost { width: 100%; padding: 11px; border-radius: 10px; border: 2px dashed #C5CDE0; background: transparent; color: #5A6A8A; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 14px; font-family: inherit; }
-  .add-form { background: #fff; border-radius: 12px; padding: 18px; border: 1.5px solid #DDE3EE; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-  .add-form h3 { font-size: 13px; color: #1A2236; margin-bottom: 12px; font-weight: 700; }
-  .form-row { display: flex; gap: 8px; margin-bottom: 8px; }
-  .form-input { padding: 9px 12px; border-radius: 8px; border: 1.5px solid #DDE3EE; font-size: 13px; outline: none; width: 100%; font-family: inherit; color: #1A2236; }
-  .form-label { font-size: 11px; font-weight: 600; color: #7A8BA6; margin-bottom: 4px; display: block; }
-  .count-input { display: flex; align-items: center; border: 1.5px solid #DDE3EE; border-radius: 8px; overflow: hidden; background: #fff; }
-  .count-input input { width: 48px; text-align: center; border: none; font-size: 14px; font-weight: 700; color: #1A2236; outline: none; font-family: inherit; padding: 8px 0; }
-  .count-btn { background: #F1F4FA; border: none; width: 32px; height: 38px; font-size: 18px; cursor: pointer; color: #2C4F9E; font-weight: 700; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-  .count-btn:hover { background: #DDE8FF; }
-  .form-actions { display: flex; gap: 8px; margin-top: 12px; }
-  .btn-primary { flex: 1; padding: 10px; border-radius: 8px; border: none; background: #2C4F9E; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; font-family: inherit; }
-  .btn-secondary { padding: 10px 16px; border-radius: 8px; border: 1.5px solid #DDE3EE; background: #fff; color: #7A8BA6; font-weight: 600; font-size: 13px; cursor: pointer; font-family: inherit; }
-  .section-label { font-size: 11px; font-weight: 700; color: #A0AABC; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; margin-top: 4px; }
+  /* ── ADD BUTTON ── */
+  .btn-add { width: 100%; padding: 14px; border-radius: 12px; border: 2px dashed #B8C4DA; background: transparent; color: #5A6A8A; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 14px; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-  /* GUEST CARD */
-  .guest-card { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #E8ECF2; background: #fff; margin-bottom: 8px; transition: all 0.2s; }
-  .guest-card.invited { background: #F6FFF8; border-color: #A8E6C3; }
-  .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #BFC8D6; background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #fff; transition: all 0.2s; }
+  /* ── ADD FORM ── */
+  .add-form { background: #fff; border-radius: 14px; padding: 18px; border: 1.5px solid #DDE3EE; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .add-form-title { font-size: 15px; font-weight: 800; color: #1A2236; margin-bottom: 14px; }
+  .field { margin-bottom: 12px; }
+  .field label { font-size: 12px; font-weight: 700; color: #7A8BA6; display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .field input, .field select { width: 100%; padding: 12px; border-radius: 10px; border: 1.5px solid #DDE3EE; font-size: 15px; outline: none; font-family: inherit; color: #1A2236; background: #fff; -webkit-appearance: none; }
+  .field input:focus, .field select:focus { border-color: #3B6FD4; }
+  .field-row { display: flex; gap: 10px; }
+  .field-row .field { flex: 1; }
+  .counter-field { display: flex; align-items: center; border: 1.5px solid #DDE3EE; border-radius: 10px; overflow: hidden; background: #fff; }
+  .counter-field input { border: none; text-align: center; font-size: 18px; font-weight: 800; color: #1A2236; width: 100%; padding: 10px 0; outline: none; font-family: inherit; }
+  .counter-btn { background: #F0F4FA; border: none; width: 44px; height: 46px; font-size: 22px; cursor: pointer; color: #2C4F9E; font-weight: 700; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .counter-btn:active { background: #DDE8FF; }
+  .form-btns { display: flex; gap: 10px; margin-top: 16px; }
+  .btn-save { flex: 1; padding: 14px; border-radius: 10px; border: none; background: #2C4F9E; color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; font-family: inherit; }
+  .btn-cancel { padding: 14px 18px; border-radius: 10px; border: 1.5px solid #DDE3EE; background: #fff; color: #7A8BA6; font-weight: 600; font-size: 15px; cursor: pointer; font-family: inherit; }
+
+  /* ── GROUP DETAIL BAR ── */
+  .group-detail { background: #fff; border-radius: 12px; padding: 14px 16px; border: 1.5px solid #DDE3EE; margin-bottom: 12px; display: flex; gap: 0; overflow: hidden; }
+  .gd-item { flex: 1; text-align: center; border-right: 1px solid #E8ECF2; padding: 0 8px; }
+  .gd-item:last-child { border-right: none; }
+  .gd-val { font-size: 20px; font-weight: 800; color: #1A2236; }
+  .gd-lbl { font-size: 10px; color: #8A97B0; margin-top: 2px; }
+
+  /* ── GUEST CARD ── */
+  .guest-card { background: #fff; border-radius: 14px; border: 1.5px solid #E8ECF2; margin-bottom: 10px; overflow: hidden; transition: border-color 0.2s; }
+  .guest-card.invited { border-color: #A8E6C3; background: #F6FFF8; }
+  .guest-card-top { display: flex; align-items: center; gap: 12px; padding: 14px; }
+  .check-btn { width: 34px; height: 34px; border-radius: 50%; border: 2.5px solid #C5CDD8; background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; color: #fff; transition: all 0.2s; }
   .check-btn.checked { border-color: #27AE60; background: #27AE60; }
-  .guest-info { flex: 1; min-width: 0; }
-  .guest-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .guest-name { font-weight: 700; font-size: 14px; color: #1A2236; }
-  .badge { border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-  .badge-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .guest-body { flex: 1; min-width: 0; }
+  .guest-name { font-weight: 800; font-size: 16px; color: #1A2236; margin-bottom: 4px; }
+  .guest-tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 4px; }
+  .badge { border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
   .badge-mandatory { background: #FFF0F0; color: #C0392B; }
   .badge-mandatory .badge-dot { background: #E74C3C; }
-  .badge-optional { background: #F0F4FF; color: #2C5282; }
+  .badge-optional { background: #EEF4FF; color: #2C5282; }
   .badge-optional .badge-dot { background: #4A90D9; }
-  .guest-group { font-size: 11px; color: #7A8BA6; background: #F1F4FA; border-radius: 10px; padding: 1px 8px; }
-  .guest-meta { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
-  .guest-meta-item { font-size: 12px; color: #7A8BA6; display: flex; align-items: center; gap: 3px; }
-  .guest-meta-item strong { color: #1A2236; font-weight: 700; }
-  .guest-total { font-size: 11px; background: #FFF8E8; color: #B7791F; border-radius: 8px; padding: 1px 8px; font-weight: 700; }
-  .guest-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
-  .btn-delete { background: #FFF0F0; border: none; color: #E74C3C; border-radius: 8px; padding: 6px 10px; font-size: 15px; cursor: pointer; line-height: 1; }
-  .btn-edit { background: #F1F4FA; border: none; color: #2C4F9E; border-radius: 8px; padding: 6px 10px; font-size: 15px; cursor: pointer; line-height: 1; }
+  .tag-group { font-size: 11px; color: #7A8BA6; background: #F1F4FA; border-radius: 20px; padding: 3px 10px; font-weight: 600; }
+  .guest-counts { display: flex; gap: 12px; align-items: center; }
+  .count-item { font-size: 12px; color: #7A8BA6; }
+  .count-item strong { color: #1A2236; font-weight: 700; }
+  .count-total { font-size: 12px; font-weight: 800; background: #FFF8E8; color: #B7791F; border-radius: 8px; padding: 2px 8px; }
+  .guest-actions-col { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+  .act-btn { width: 36px; height: 36px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .act-edit { background: #F0F4FA; color: #2C4F9E; }
+  .act-del { background: #FFF0F0; color: #E74C3C; }
 
-  /* EMPTY / FOOTER */
-  .empty { text-align: center; padding: 48px 24px; color: #A0AABC; font-size: 14px; }
-  .footer { text-align: center; margin-top: 20px; font-size: 11px; color: #B0BAD0; padding-bottom: 32px; }
+  /* ── INVITED BANNER ── */
+  .invited-banner { background: #27AE60; color: #fff; text-align: center; padding: 5px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
 
-  /* MODAL */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
-  .modal { background: #fff; border-radius: 16px; padding: 24px; max-width: 420px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-  .modal h2 { font-size: 16px; font-weight: 700; color: #1A2236; margin-bottom: 8px; }
-  .modal p { font-size: 14px; color: #5A6A8A; margin-bottom: 20px; }
-  .modal-actions { display: flex; gap: 10px; }
-  .btn-danger { flex: 1; padding: 10px; border-radius: 8px; border: none; background: #E74C3C; color: #fff; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 13px; }
+  /* ── EMPTY ── */
+  .empty { text-align: center; padding: 60px 20px; color: #A0AABC; }
+  .empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-text { font-size: 15px; }
 
-  /* TOAST */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); color: #fff; padding: 10px 22px; border-radius: 24px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 999; white-space: nowrap; pointer-events: none; }
+  /* ── FOOTER ── */
+  .footer { text-align: center; margin-top: 16px; font-size: 12px; color: #B0BAD0; }
+
+  /* ── MODAL ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-end; justify-content: center; z-index: 200; padding: 0; }
+  .modal { background: #fff; border-radius: 20px 20px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 680px; box-shadow: 0 -8px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+  .modal-handle { width: 40px; height: 4px; background: #DDE3EE; border-radius: 4px; margin: 0 auto 20px; }
+  .modal h2 { font-size: 18px; font-weight: 800; color: #1A2236; margin-bottom: 8px; }
+  .modal p { font-size: 15px; color: #5A6A8A; margin-bottom: 24px; line-height: 1.5; }
+  .modal .field label { font-size: 12px; }
+  .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-danger { flex: 1; padding: 14px; border-radius: 10px; border: none; background: #E74C3C; color: #fff; font-weight: 800; cursor: pointer; font-family: inherit; font-size: 15px; }
+
+  /* ── TOAST ── */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; font-weight: 700; box-shadow: 0 4px 20px rgba(0,0,0,0.25); z-index: 999; white-space: nowrap; pointer-events: none; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from { opacity:0; transform: translateX(-50%) translateY(10px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
   .toast.success { background: #1A2E5A; }
-  .toast.error { background: #C0392B; }
+  .toast.error { background: #E74C3C; }
 
-  /* LOADING */
-  .loading { display: flex; align-items: center; justify-content: center; height: 100vh; color: #7A8BA6; font-size: 14px; flex-direction: column; gap: 10px; }
-  .spinner { width: 28px; height: 28px; border: 3px solid #DDE3EE; border-top-color: #2C4F9E; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  /* ── LOADING ── */
+  .loading { display: flex; align-items: center; justify-content: center; height: 100vh; color: #7A8BA6; font-size: 15px; flex-direction: column; gap: 12px; }
+  .spinner { width: 32px; height: 32px; border: 3px solid #DDE3EE; border-top-color: #2C4F9E; border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  @media (max-width: 500px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .header h1 { font-size: 18px; }
-    .stat-val { font-size: 22px; }
-    .group-cards { grid-template-columns: repeat(2, 1fr); }
+  /* ── DESKTOP ── */
+  @media (min-width: 600px) {
+    .header { padding: 28px 24px 22px; }
+    .header h1 { font-size: 24px; }
+    .stats-row { grid-template-columns: repeat(4, 1fr); }
+    .main { padding: 20px 16px 48px; }
+    .modal-overlay { align-items: center; padding: 20px; }
+    .modal { border-radius: 20px; max-height: 85vh; }
+    .modal-handle { display: none; }
+    .guest-card-top { padding: 16px; }
+    .guest-name { font-size: 15px; }
   }
 </style>
 </head>
@@ -126,8 +164,6 @@
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby_W3eMgdsKBWVDO4pRVPVUt_YpF8v1NCTdaNa1AoZrDq0QQbCfMBTLkLN56iJyoDII/exec";
-
-// Predefined group colors
 const GROUP_COLORS = ["#3B6FD4","#27AE60","#E67E22","#8E44AD","#C0392B","#16A085","#2980B9","#D35400","#7D3C98","#1A5276"];
 
 let guests = [];
@@ -135,57 +171,60 @@ let filterStatus = "all", filterPrio = "all", filterGroup = "all", searchQ = "";
 let showForm = false, saving = false;
 let confirmDeleteId = null, editGuest = null;
 
-// ── Data ──────────────────────────────────────────────────────────────────────
+// ── DATA ──────────────────────────────────────────────────────────────────────
 async function loadData() {
   try {
-    const res = await fetch(SCRIPT_URL + "?nocache=" + Date.now());
+    const res = await fetch(SCRIPT_URL + "?nc=" + Date.now());
     const rows = await res.json();
     if (!rows || rows.length < 2) { guests = []; return; }
-    const dataRows = rows.slice(1);
-    const start = (dataRows[0] && dataRows[0][0] === "__SETTINGS__") ? 1 : 0;
-    guests = dataRows.slice(start).filter(function(r){ return r[0]; }).map(rowToGuest);
-  } catch(e) { showToast("Could not load — check connection", "error"); }
+    const data = rows.slice(1);
+    const start = (data[0] && data[0][0] === "__SETTINGS__") ? 1 : 0;
+    guests = data.slice(start).filter(function(r){ return r[0]; }).map(rowToGuest);
+  } catch(e) { showToast("Could not load data", "error"); }
 }
 
 function rowToGuest(r) {
-  return { id: String(r[0]), name: r[1]||"", priority: r[2]||"Mandatory", group: r[3]||"", status: r[4]||"pending", adults: parseInt(r[5])||1, kids: parseInt(r[6])||0 };
+  return { id:String(r[0]), name:r[1]||"", priority:r[2]||"Mandatory", group:r[3]||"", status:r[4]||"pending", adults:parseInt(r[5])||1, kids:parseInt(r[6])||0 };
 }
-function guestToRow(g) { return [g.id, g.name, g.priority, g.group, g.status, g.adults, g.kids]; }
+function guestToRow(g) { return [g.id,g.name,g.priority,g.group,g.status,g.adults,g.kids]; }
 
 async function saveData() {
-  saving = true; render();
-  const headers = ["id","name","priority","group","status","adults","kids"];
-  const rows = [headers, ...guests.map(guestToRow)];
+  saving = true; renderFooter();
+  const rows = [["id","name","priority","group","status","adults","kids"], ...guests.map(guestToRow)];
   try { await fetch(SCRIPT_URL, { method:"POST", body: JSON.stringify(rows) }); }
-  catch(e) { showToast("Save failed", "error"); }
-  saving = false; render();
+  catch(e) { showToast("Save failed","error"); }
+  saving = false; renderFooter();
 }
 
-// ── Toast ─────────────────────────────────────────────────────────────────────
+function renderFooter() {
+  const el = document.getElementById("footer");
+  if (el) el.textContent = saving ? "Saving…" : "Showing "+getFiltered().length+" of "+guests.length+" guests";
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg, type) {
-  type = type || "success";
   clearTimeout(toastTimer);
-  const old = document.getElementById("toast");
+  const old = document.getElementById("_toast");
   if (old) old.remove();
   const el = document.createElement("div");
-  el.id = "toast"; el.className = "toast " + type; el.textContent = msg;
+  el.id = "_toast"; el.className = "toast "+(type||"success"); el.textContent = msg;
   document.body.appendChild(el);
   toastTimer = setTimeout(function(){ el.remove(); }, 2800);
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-function escHtml(s) {
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function esc(s) {
   return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
 function getFiltered() {
   return guests.filter(function(g) {
-    if (filterStatus === "pending" && g.status !== "pending") return false;
-    if (filterStatus === "invited" && g.status !== "invited") return false;
-    if (filterPrio !== "all" && g.priority !== filterPrio) return false;
-    if (filterGroup !== "all" && g.group !== filterGroup) return false;
-    if (searchQ && g.name.toLowerCase().indexOf(searchQ.toLowerCase()) === -1) return false;
+    if (filterStatus==="pending" && g.status!=="pending") return false;
+    if (filterStatus==="invited" && g.status!=="invited") return false;
+    if (filterPrio!=="all" && g.priority!==filterPrio) return false;
+    if (filterGroup!=="all" && g.group!==filterGroup) return false;
+    if (searchQ && g.name.toLowerCase().indexOf(searchQ.toLowerCase())===-1) return false;
     return true;
   });
 }
@@ -193,262 +232,261 @@ function getFiltered() {
 function getGroupStats() {
   const map = {};
   guests.forEach(function(g) {
-    const grp = g.group || "Ungrouped";
-    if (!map[grp]) map[grp] = { name: grp, total: 0, invited: 0, adults: 0, kids: 0, invAdults: 0, invKids: 0 };
-    map[grp].total++;
-    map[grp].adults += g.adults;
-    map[grp].kids += g.kids;
-    if (g.status === "invited") {
-      map[grp].invited++;
-      map[grp].invAdults += g.adults;
-      map[grp].invKids += g.kids;
-    }
+    const grp = g.group||"Ungrouped";
+    if (!map[grp]) map[grp] = {name:grp,total:0,invited:0,adults:0,kids:0,iA:0,iK:0};
+    map[grp].total++; map[grp].adults+=g.adults; map[grp].kids+=g.kids;
+    if (g.status==="invited") { map[grp].invited++; map[grp].iA+=g.adults; map[grp].iK+=g.kids; }
   });
-  return Object.values(map).sort(function(a,b){ return b.total - a.total; });
+  return Object.values(map).sort(function(a,b){ return b.total-a.total; });
 }
 
-function handleSearch(el) {
-  searchQ = el.value;
-  const pos = el.selectionStart;
-  render();
-  const box = document.getElementById("search-box");
-  if (box) { box.focus(); box.setSelectionRange(pos, pos); }
+function changeCount(id, d) {
+  const el = document.getElementById(id);
+  if (el) el.value = Math.max(0,(parseInt(el.value)||0)+d);
 }
 
-function changeCount(inputId, delta) {
-  const inp = document.getElementById(inputId);
-  if (!inp) return;
-  inp.value = Math.max(0, (parseInt(inp.value)||0) + delta);
-}
-
-// ── Actions ───────────────────────────────────────────────────────────────────
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
 async function toggleGuest(id) {
   guests = guests.map(function(g){ return g.id!==id?g:Object.assign({},g,{status:g.status==="invited"?"pending":"invited"}); });
-  render(); await saveData();
+  renderGuestArea(); await saveData();
 }
 
 async function deleteGuest(id) {
   const g = guests.find(function(x){ return x.id===id; });
   guests = guests.filter(function(x){ return x.id!==id; });
-  confirmDeleteId = null; render();
+  confirmDeleteId=null; render();
   showToast((g?g.name:"Guest")+" removed");
   await saveData();
 }
 
 async function addGuest() {
-  const name = document.getElementById("f-name").value.trim();
+  const name = (document.getElementById("f-name").value||"").trim();
   if (!name) { showToast("Please enter a name","error"); return; }
-  const ng = {
-    id: Date.now().toString(), name: name,
-    priority: document.getElementById("f-priority").value,
-    group: document.getElementById("f-group").value.trim(),
-    status: "pending",
-    adults: parseInt(document.getElementById("f-adults").value)||1,
-    kids: parseInt(document.getElementById("f-kids").value)||0
-  };
-  guests.push(ng); showForm = false;
-  render(); showToast(ng.name+" added"); await saveData();
+  const ng = { id:Date.now().toString(), name:name, priority:document.getElementById("f-priority").value, group:(document.getElementById("f-group").value||"").trim(), status:"pending", adults:parseInt(document.getElementById("f-adults").value)||1, kids:parseInt(document.getElementById("f-kids").value)||0 };
+  guests.push(ng); showForm=false; render();
+  showToast(ng.name+" added"); await saveData();
 }
 
 async function saveEdit() {
   if (!editGuest) return;
-  const name = document.getElementById("e-name").value.trim();
+  const name = (document.getElementById("e-name").value||"").trim();
   if (!name) { showToast("Please enter a name","error"); return; }
   guests = guests.map(function(g) {
-    if (g.id !== editGuest.id) return g;
-    return Object.assign({},g,{ name:name, priority:document.getElementById("e-priority").value, group:document.getElementById("e-group").value.trim(), adults:parseInt(document.getElementById("e-adults").value)||1, kids:parseInt(document.getElementById("e-kids").value)||0 });
+    if (g.id!==editGuest.id) return g;
+    return Object.assign({},g,{name:name, priority:document.getElementById("e-priority").value, group:(document.getElementById("e-group").value||"").trim(), adults:parseInt(document.getElementById("e-adults").value)||1, kids:parseInt(document.getElementById("e-kids").value)||0});
   });
-  editGuest = null; render(); showToast("Guest updated"); await saveData();
+  editGuest=null; render(); showToast("Guest updated"); await saveData();
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
+// ── SEARCH (no full re-render) ────────────────────────────────────────────────
+function handleSearch(val) {
+  searchQ = val;
+  renderGuestArea();
+}
+
+// ── RENDER GUEST AREA ONLY (for search/filter) ────────────────────────────────
+function renderGuestArea() {
+  const el = document.getElementById("guest-area");
+  if (!el) { render(); return; }
+  el.innerHTML = buildGuestListHTML();
+  renderFooter();
+}
+
+function buildGuestListHTML() {
+  const filtered = getFiltered();
+  let html = "";
+
+  // Group detail bar when group selected
+  if (filterGroup !== "all") {
+    const gs = getGroupStats().find(function(s){ return s.name===filterGroup; });
+    if (gs) {
+      const gP = gs.adults+gs.kids;
+      html += '<div class="group-detail">';
+      html += '<div class="gd-item"><div class="gd-val">'+gs.total+'</div><div class="gd-lbl">Families</div></div>';
+      html += '<div class="gd-item"><div class="gd-val">'+gP+'</div><div class="gd-lbl">People</div></div>';
+      html += '<div class="gd-item"><div class="gd-val">'+gs.adults+'</div><div class="gd-lbl">Adults</div></div>';
+      html += '<div class="gd-item"><div class="gd-val">'+gs.kids+'</div><div class="gd-lbl">Kids</div></div>';
+      html += '<div class="gd-item"><div class="gd-val" style="color:#27AE60">'+gs.invited+'</div><div class="gd-lbl">Invited</div></div>';
+      html += '</div>';
+    }
+  }
+
+  if (filtered.length === 0) {
+    html += '<div class="empty"><div class="empty-icon">'+(guests.length===0?"👥":"🔍")+'</div><div class="empty-text">'+(guests.length===0?"No guests yet.<br>Tap + Add Guest to start.":"No guests match your search.")+'</div></div>';
+    return html;
+  }
+
+  filtered.forEach(function(g) {
+    const inv = g.status==="invited";
+    const total = g.adults+g.kids;
+    html += '<div class="guest-card'+(inv?" invited":"")+'">';
+    if (inv) html += '<div class="invited-banner">✓ INVITATION SENT</div>';
+    html += '<div class="guest-card-top">';
+    html += '<button class="check-btn'+(inv?" checked":"")+'" onclick="toggleGuest(\''+g.id+'\')">'+(inv?"✓":"")+'</button>';
+    html += '<div class="guest-body">';
+    html += '<div class="guest-name">'+esc(g.name)+'</div>';
+    html += '<div class="guest-tags">';
+    html += '<span class="badge badge-'+g.priority.toLowerCase()+'"><span class="badge-dot"></span>'+esc(g.priority)+'</span>';
+    if (g.group) html += '<span class="tag-group">'+esc(g.group)+'</span>';
+    html += '</div>';
+    html += '<div class="guest-counts">';
+    html += '<span class="count-item">👨‍👩‍👦 <strong>'+g.adults+'</strong> adult'+(g.adults!==1?"s":"")+'</span>';
+    if (g.kids>0) html += '<span class="count-item">👶 <strong>'+g.kids+'</strong> kid'+(g.kids!==1?"s":"")+'</span>';
+    html += '<span class="count-total">'+total+' '+(total===1?"person":"people")+'</span>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="guest-actions-col">';
+    html += '<button class="act-btn act-edit" onclick=\'editGuest='+JSON.stringify(g)+';render()\'>✏️</button>';
+    html += '<button class="act-btn act-del" onclick="confirmDeleteId=\''+g.id+'\';render()">🗑️</button>';
+    html += '</div>';
+    html += '</div></div>';
+  });
+  return html;
+}
+
+// ── FULL RENDER ───────────────────────────────────────────────────────────────
 function render() {
-  const filtered   = getFiltered();
   const total      = guests.length;
-  const invitedCount   = guests.filter(function(g){ return g.status==="invited"; }).length;
-  const mandatoryLeft  = guests.filter(function(g){ return g.priority==="Mandatory"&&g.status==="pending"; }).length;
-  const totalAdults    = guests.reduce(function(s,g){ return s+g.adults; },0);
-  const totalKids      = guests.reduce(function(s,g){ return s+g.kids; },0);
-  const totalPeople    = totalAdults + totalKids;
-  const invAdults      = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.adults; },0);
-  const invKids        = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.kids; },0);
-  const pct = total ? Math.round((invitedCount/total)*100) : 0;
+  const invCount   = guests.filter(function(g){ return g.status==="invited"; }).length;
+  const mandLeft   = guests.filter(function(g){ return g.priority==="Mandatory"&&g.status==="pending"; }).length;
+  const totAdults  = guests.reduce(function(s,g){ return s+g.adults; },0);
+  const totKids    = guests.reduce(function(s,g){ return s+g.kids; },0);
+  const totPeople  = totAdults+totKids;
+  const invAdults  = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.adults; },0);
+  const invKids    = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.kids; },0);
+  const pct        = total ? Math.round((invCount/total)*100) : 0;
   const groupStats = getGroupStats();
 
   let html = "";
 
-  // ── HEADER ──
+  // HEADER
   html += '<div class="header"><div class="header-inner">';
   html += '<div class="header-eyebrow">Family Event</div>';
-  html += '<h1>🎉 Guest Invitation Tracker</h1>';
-  html += '<div class="header-subtitle">Live shared list — updates for everyone instantly</div>';
-  html += '<div class="stats-grid">';
-  html += '<div class="stat-card"><div class="stat-val">'+total+'</div><div class="stat-lbl">Guest Families</div></div>';
-  html += '<div class="stat-card"><div class="stat-val" style="color:#7EFFA0">'+invitedCount+'</div><div class="stat-lbl">Invited</div><div class="stat-sub">'+mandatoryLeft+' mandatory left</div></div>';
-  html += '<div class="stat-card"><div class="stat-val" style="color:#FFD580">'+(total-invitedCount)+'</div><div class="stat-lbl">Pending</div></div>';
-  html += '<div class="stat-card"><div class="stat-val" style="color:#A0C4FF">'+totalPeople+'</div><div class="stat-lbl">Total People</div><div class="stat-sub">'+totalAdults+' adults · '+totalKids+' kids</div></div>';
+  html += '<h1>🎉 Guest Tracker</h1>';
+  html += '<div class="header-subtitle">Live shared list · updates for everyone</div>';
+  html += '<div class="stats-row">';
+  html += '<div class="stat-card"><div class="stat-val">'+total+'</div><div class="stat-lbl">Families</div></div>';
+  html += '<div class="stat-card"><div class="stat-val" style="color:#7EFFA0">'+invCount+'</div><div class="stat-lbl">Invited</div><div class="stat-sub">'+mandLeft+' mandatory left</div></div>';
+  html += '<div class="stat-card"><div class="stat-val" style="color:#FFD580">'+(total-invCount)+'</div><div class="stat-lbl">Pending</div></div>';
+  html += '<div class="stat-card"><div class="stat-val" style="color:#A0C4FF">'+totPeople+'</div><div class="stat-lbl">Total People</div><div class="stat-sub">'+totAdults+' adults · '+totKids+' kids</div></div>';
   html += '</div>';
-  html += '<div class="headcount-row">';
-  html += '<div class="hc-pill">👨‍👩‍👦 Expected: <strong style="color:#7EFFA0">'+totalPeople+' people</strong></div>';
-  html += '<div class="hc-pill">✅ Confirmed: <strong style="color:#7EFFA0">'+(invAdults+invKids)+' people</strong> ('+invAdults+' adults · '+invKids+' kids)</div>';
+  html += '<div class="hc-row">';
+  html += '<div class="hc-pill">👥 Expected: <strong>'+totPeople+' people</strong></div>';
+  html += '<div class="hc-pill">✅ Confirmed: <strong>'+(invAdults+invKids)+'</strong> ('+invAdults+'A · '+invKids+'K)</div>';
   html += '</div>';
-  html += '<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:'+pct+'%"></div></div>';
-  html += '<div class="progress-pct">'+pct+'% families invited</div>';
+  html += '<div class="prog-bg"><div class="prog-fill" style="width:'+pct+'%"></div></div>';
+  html += '<div class="prog-lbl">'+pct+'% families invited</div>';
   html += '</div></div>';
 
-  // ── MAIN ──
+  // MAIN
   html += '<div class="main">';
 
-  // ── GROUP SUMMARY CARDS ──
+  // GROUP CARDS (horizontal scroll)
   if (groupStats.length > 0) {
-    html += '<div class="group-section-title">By Group</div>';
-    html += '<div class="group-cards">';
+    html += '<div class="section-title">Browse by Group</div>';
+    html += '<div class="group-scroll">';
 
     // ALL card
-    const allPct = total ? Math.round((invitedCount/total)*100) : 0;
-    html += '<div class="group-card'+(filterGroup==="all"?" active":"")+'" onclick="filterGroup=\'all\';render()">';
-    html += '<div class="group-card-name">🌐 All Groups</div>';
-    html += '<div class="group-card-stats">';
-    html += '<div class="group-card-row"><span class="group-card-label">Families</span><span class="group-card-val">'+total+'</span></div>';
-    html += '<div class="group-card-row"><span class="group-card-label">People</span><span class="group-card-val">'+totalPeople+'</span></div>';
-    html += '<div class="group-card-row"><span class="group-card-label">Invited</span><span class="group-card-val" style="color:#27AE60">'+invitedCount+' / '+total+'</span></div>';
-    html += '</div>';
-    html += '<div class="group-card-bar"><div class="group-card-bar-fill" style="width:'+allPct+'%"></div></div>';
-    html += '<div class="group-card-pct">'+allPct+'% invited</div>';
+    html += '<div class="group-card'+(filterGroup==="all"?" active":"")+'" onclick="filterGroup=\'all\';renderGuestArea()">';
+    html += '<div class="group-card-name all">🌐 All</div>';
+    html += '<div class="group-stat-row"><span class="group-stat-lbl">Families</span><span class="group-stat-val">'+total+'</span></div>';
+    html += '<div class="group-stat-row"><span class="group-stat-lbl">People</span><span class="group-stat-val">'+totPeople+'</span></div>';
+    html += '<div class="group-stat-row"><span class="group-stat-lbl">Invited</span><span class="group-stat-val" style="color:#27AE60">'+invCount+'/'+total+'</span></div>';
+    html += '<div class="group-bar-bg"><div class="group-bar-fill" style="width:'+pct+'%;background:#3B6FD4"></div></div>';
+    html += '<div class="group-pct" style="color:#3B6FD4">'+pct+'%</div>';
     html += '</div>';
 
-    groupStats.forEach(function(gs, idx) {
+    groupStats.forEach(function(gs, i) {
+      const color = GROUP_COLORS[i % GROUP_COLORS.length];
+      const gP = gs.adults+gs.kids;
       const gPct = gs.total ? Math.round((gs.invited/gs.total)*100) : 0;
-      const color = GROUP_COLORS[idx % GROUP_COLORS.length];
-      const gPeople = gs.adults + gs.kids;
-      const isActive = filterGroup === gs.name;
-      html += '<div class="group-card'+(isActive?" active":"")+'" onclick="filterGroup=\''+escHtml(gs.name)+'\';render()" style="border-left:3px solid '+color+'">';
-      html += '<div class="group-card-name" style="color:'+color+'">'+escHtml(gs.name)+'</div>';
-      html += '<div class="group-card-stats">';
-      html += '<div class="group-card-row"><span class="group-card-label">Families</span><span class="group-card-val">'+gs.total+'</span></div>';
-      html += '<div class="group-card-row"><span class="group-card-label">People</span><span class="group-card-val">'+gPeople+' <span style="font-size:10px;color:#A0AABC">('+gs.adults+'A·'+gs.kids+'K)</span></span></div>';
-      html += '<div class="group-card-row"><span class="group-card-label">Invited</span><span class="group-card-val" style="color:#27AE60">'+gs.invited+' / '+gs.total+'</span></div>';
-      html += '</div>';
-      html += '<div class="group-card-bar"><div class="group-card-bar-fill" style="width:'+gPct+'%;background:'+color+'"></div></div>';
-      html += '<div class="group-card-pct" style="color:'+color+'">'+gPct+'% invited</div>';
+      const isActive = filterGroup===gs.name;
+      html += '<div class="group-card'+(isActive?" active":"")+'" onclick="filterGroup=\''+esc(gs.name)+'\';renderGuestArea()" style="border-top:3px solid '+color+'">';
+      html += '<div class="group-card-name" style="color:'+color+'">'+esc(gs.name)+'</div>';
+      html += '<div class="group-stat-row"><span class="group-stat-lbl">Families</span><span class="group-stat-val">'+gs.total+'</span></div>';
+      html += '<div class="group-stat-row"><span class="group-stat-lbl">People</span><span class="group-stat-val">'+gP+'</span></div>';
+      html += '<div class="group-stat-row"><span class="group-stat-lbl">Invited</span><span class="group-stat-val" style="color:'+color+'">'+gs.invited+'/'+gs.total+'</span></div>';
+      html += '<div class="group-bar-bg"><div class="group-bar-fill" style="width:'+gPct+'%;background:'+color+'"></div></div>';
+      html += '<div class="group-pct" style="color:'+color+'">'+gPct+'%</div>';
       html += '</div>';
     });
     html += '</div>';
   }
 
-  // ── SEARCH ──
-  html += '<input id="search-box" class="search-box" placeholder="🔍  Search by name…" value="'+escHtml(searchQ)+'" oninput="handleSearch(this)" />';
+  // SEARCH
+  html += '<div class="search-wrap"><span class="icon">🔍</span><input class="search-box" placeholder="Search guest name…" value="'+esc(searchQ)+'" oninput="handleSearch(this.value)" /></div>';
 
-  // ── STATUS + PRIORITY FILTERS ──
-  html += '<div class="filters">';
-  [["all","All"],["pending","⏳ Pending"],["invited","✅ Invited"]].forEach(function(f){
-    html += '<button class="pill'+(filterStatus===f[0]?" active":"")+'" onclick="filterStatus=\''+f[0]+'\';render()">'+f[1]+'</button>';
-  });
-  html += '<div class="pill-divider"></div>';
-  [["all","All Types"],["Mandatory","Mandatory"],["Optional","Optional"]].forEach(function(f){
-    html += '<button class="pill'+(filterPrio===f[0]?" active":"")+'" onclick="filterPrio=\''+f[0]+'\';render()">'+f[1]+'</button>';
-  });
-  html += '</div>';
-
-  // ── ADD FORM ──
-  if (showForm) {
-    html += '<div class="add-form"><h3>➕ New Guest</h3>';
-    html += '<div class="form-row"><input id="f-name" class="form-input" placeholder="Full Name *" /></div>';
-    html += '<div class="form-row">';
-    html += '<select id="f-priority" class="form-input" style="flex:1"><option>Mandatory</option><option>Optional</option></select>';
-    html += '<input id="f-group" class="form-input" placeholder="Group (e.g. Ajeet Friends)" style="flex:2" />';
-    html += '</div>';
-    html += '<div class="section-label" style="margin-top:8px">Headcount</div>';
-    html += '<div class="form-row">';
-    html += '<div style="flex:1"><label class="form-label">👨‍👩‍👦 Adults</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'f-adults\',-1)">−</button><input id="f-adults" type="number" min="0" value="1" /><button class="count-btn" onclick="changeCount(\'f-adults\',1)">+</button></div></div>';
-    html += '<div style="flex:1"><label class="form-label">👶 Kids (under 12)</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'f-kids\',-1)">−</button><input id="f-kids" type="number" min="0" value="0" /><button class="count-btn" onclick="changeCount(\'f-kids\',1)">+</button></div></div>';
-    html += '</div>';
-    html += '<div class="form-actions"><button class="btn-primary" onclick="addGuest()">Add Guest</button><button class="btn-secondary" onclick="showForm=false;render()">Cancel</button></div>';
-    html += '</div>';
-  } else {
-    html += '<button class="btn-add-ghost" onclick="showForm=true;render()">+ Add Guest</button>';
-  }
-
-  // ── GUEST LIST ──
-  if (filtered.length === 0) {
-    html += '<div class="empty">'+(guests.length===0?"No guests yet — add your first guest above.":"No guests match your filters.")+'</div>';
-  } else {
-    // Show group header if filtered by group
-    if (filterGroup !== "all") {
-      const gs = getGroupStats().find(function(s){ return s.name===filterGroup; });
-      if (gs) {
-        const gPeople = gs.adults + gs.kids;
-        html += '<div style="background:#fff;border-radius:10px;padding:12px 16px;border:1.5px solid #DDE3EE;margin-bottom:12px;display:flex;gap:20px;flex-wrap:wrap">';
-        html += '<div><div style="font-size:11px;color:#A0AABC">Families</div><div style="font-size:18px;font-weight:800;color:#1A2236">'+gs.total+'</div></div>';
-        html += '<div><div style="font-size:11px;color:#A0AABC">Total People</div><div style="font-size:18px;font-weight:800;color:#1A2236">'+gPeople+'</div></div>';
-        html += '<div><div style="font-size:11px;color:#A0AABC">Adults</div><div style="font-size:18px;font-weight:800;color:#1A2236">'+gs.adults+'</div></div>';
-        html += '<div><div style="font-size:11px;color:#A0AABC">Kids</div><div style="font-size:18px;font-weight:800;color:#1A2236">'+gs.kids+'</div></div>';
-        html += '<div><div style="font-size:11px;color:#A0AABC">Invited</div><div style="font-size:18px;font-weight:800;color:#27AE60">'+gs.invited+' / '+gs.total+'</div></div>';
-        html += '</div>';
-      }
+  // STATUS FILTERS
+  html += '<div class="filter-scroll">';
+  [["all","All"],["pending","⏳ Pending"],["invited","✅ Invited"],["all-m","Mandatory"],["all-o","Optional"]].forEach(function(f) {
+    if (f[0]==="all-m") {
+      html += '<button class="fpill'+(filterPrio==="Mandatory"?" active":"")+'" onclick="filterPrio=filterPrio===\'Mandatory\'?\'all\':\'Mandatory\';renderGuestArea()">🔴 Mandatory</button>';
+    } else if (f[0]==="all-o") {
+      html += '<button class="fpill'+(filterPrio==="Optional"?" active":"")+'" onclick="filterPrio=filterPrio===\'Optional\'?\'all\':\'Optional\';renderGuestArea()">🔵 Optional</button>';
+    } else {
+      html += '<button class="fpill'+(filterStatus===f[0]?" active":"")+'" onclick="filterStatus=\''+f[0]+'\';renderGuestArea()">'+f[1]+'</button>';
     }
-
-    filtered.forEach(function(g) {
-      const inv = g.status === "invited";
-      const totalG = g.adults + g.kids;
-      html += '<div class="guest-card'+(inv?" invited":"")+'">';
-      html += '<button class="check-btn'+(inv?" checked":"")+'" onclick="toggleGuest(\''+g.id+'\')" title="'+(inv?"Mark Pending":"Mark Invited")+'">'+(inv?"✓":"")+'</button>';
-      html += '<div class="guest-info">';
-      html += '<div class="guest-name-row">';
-      html += '<span class="guest-name">'+escHtml(g.name)+'</span>';
-      html += '<span class="badge badge-'+g.priority.toLowerCase()+'"><span class="badge-dot"></span>'+escHtml(g.priority)+'</span>';
-      if (g.group) html += '<span class="guest-group">'+escHtml(g.group)+'</span>';
-      html += '</div>';
-      html += '<div class="guest-meta">';
-      html += '<span class="guest-meta-item">👨‍👩‍👦 <strong>'+g.adults+'</strong> adult'+(g.adults!==1?"s":"")+'</span>';
-      if (g.kids>0) html += '<span class="guest-meta-item">👶 <strong>'+g.kids+'</strong> kid'+(g.kids!==1?"s":"")+'</span>';
-      html += '<span class="guest-total">'+totalG+' '+(totalG===1?"person":"people")+'</span>';
-      html += '</div></div>';
-      html += '<div class="guest-actions">';
-      html += '<button class="btn-edit" onclick=\'editGuest='+JSON.stringify(g)+';render()\' title="Edit">✏️</button>';
-      html += '<button class="btn-delete" onclick="confirmDeleteId=\''+g.id+'\';render()" title="Remove">🗑️</button>';
-      html += '</div></div>';
-    });
-  }
-
-  html += '<div class="footer">'+(saving?"Saving…":"Showing "+filtered.length+" of "+total+" guests · "+totalPeople+" total people expected")+'</div>';
+  });
   html += '</div>';
 
-  // ── DELETE MODAL ──
+  // ADD BUTTON / FORM
+  if (showForm) {
+    html += '<div class="add-form">';
+    html += '<div class="add-form-title">➕ Add New Guest</div>';
+    html += '<div class="field"><label>Full Name *</label><input id="f-name" placeholder="e.g. Fufa Hoshiyar" /></div>';
+    html += '<div class="field-row">';
+    html += '<div class="field"><label>Type</label><select id="f-priority"><option>Mandatory</option><option>Optional</option></select></div>';
+    html += '<div class="field" style="flex:2"><label>Group</label><input id="f-group" placeholder="e.g. Ajeet Friends" /></div>';
+    html += '</div>';
+    html += '<div class="field-row">';
+    html += '<div class="field"><label>👨‍👩‍👦 Adults</label><div class="counter-field"><button class="counter-btn" onclick="changeCount(\'f-adults\',-1)">−</button><input id="f-adults" type="number" min="0" value="1" /><button class="counter-btn" onclick="changeCount(\'f-adults\',1)">+</button></div></div>';
+    html += '<div class="field"><label>👶 Kids</label><div class="counter-field"><button class="counter-btn" onclick="changeCount(\'f-kids\',-1)">−</button><input id="f-kids" type="number" min="0" value="0" /><button class="counter-btn" onclick="changeCount(\'f-kids\',1)">+</button></div></div>';
+    html += '</div>';
+    html += '<div class="form-btns"><button class="btn-save" onclick="addGuest()">Add Guest</button><button class="btn-cancel" onclick="showForm=false;render()">Cancel</button></div>';
+    html += '</div>';
+  } else {
+    html += '<button class="btn-add" onclick="showForm=true;render()"><span style="font-size:20px">＋</span> Add Guest</button>';
+  }
+
+  // GUEST LIST (separate div for partial re-render)
+  html += '<div id="guest-area">'+buildGuestListHTML()+'</div>';
+  html += '<div id="footer" class="footer">'+getFiltered().length+' of '+total+' guests</div>';
+  html += '</div>';
+
+  // DELETE MODAL
   if (confirmDeleteId) {
     const g = guests.find(function(x){ return x.id===confirmDeleteId; });
-    html += '<div class="modal-overlay"><div class="modal">';
+    html += '<div class="modal-overlay" onclick="if(event.target===this){confirmDeleteId=null;render()}">';
+    html += '<div class="modal"><div class="modal-handle"></div>';
     html += '<h2>Remove Guest?</h2>';
-    html += '<p>Are you sure you want to remove <strong>'+escHtml(g?g.name:"this guest")+'</strong> from the list?<br><br>This cannot be undone.</p>';
-    html += '<div class="modal-actions">';
-    html += '<button class="btn-danger" onclick="deleteGuest(\''+confirmDeleteId+'\')">Yes, Remove</button>';
-    html += '<button class="btn-secondary" onclick="confirmDeleteId=null;render()">Cancel</button>';
-    html += '</div></div></div>';
+    html += '<p>Are you sure you want to remove <strong>'+esc(g?g.name:"this guest")+'</strong>?<br>This cannot be undone.</p>';
+    html += '<div class="modal-btns"><button class="btn-danger" onclick="deleteGuest(\''+confirmDeleteId+'\')">Yes, Remove</button><button class="btn-cancel" onclick="confirmDeleteId=null;render()">Cancel</button></div>';
+    html += '</div></div>';
   }
 
-  // ── EDIT MODAL ──
+  // EDIT MODAL
   if (editGuest) {
     const g = editGuest;
-    html += '<div class="modal-overlay"><div class="modal">';
+    html += '<div class="modal-overlay" onclick="if(event.target===this){editGuest=null;render()}">';
+    html += '<div class="modal"><div class="modal-handle"></div>';
     html += '<h2>✏️ Edit Guest</h2>';
-    html += '<div style="margin-bottom:8px"><label class="form-label">Name</label><input id="e-name" class="form-input" value="'+escHtml(g.name)+'" /></div>';
-    html += '<div class="form-row">';
-    html += '<div style="flex:1"><label class="form-label">Type</label><select id="e-priority" class="form-input"><option'+(g.priority==="Mandatory"?" selected":"")+'>Mandatory</option><option'+(g.priority==="Optional"?" selected":"")+'>Optional</option></select></div>';
-    html += '<div style="flex:2"><label class="form-label">Group</label><input id="e-group" class="form-input" value="'+escHtml(g.group)+'" /></div>';
+    html += '<div class="field"><label>Name</label><input id="e-name" value="'+esc(g.name)+'" /></div>';
+    html += '<div class="field-row">';
+    html += '<div class="field"><label>Type</label><select id="e-priority"><option'+(g.priority==="Mandatory"?" selected":"")+'>Mandatory</option><option'+(g.priority==="Optional"?" selected":"")+'>Optional</option></select></div>';
+    html += '<div class="field" style="flex:2"><label>Group</label><input id="e-group" value="'+esc(g.group)+'" /></div>';
     html += '</div>';
-    html += '<div class="section-label">Headcount</div>';
-    html += '<div class="form-row">';
-    html += '<div style="flex:1"><label class="form-label">👨‍👩‍👦 Adults</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'e-adults\',-1)">−</button><input id="e-adults" type="number" min="0" value="'+g.adults+'" /><button class="count-btn" onclick="changeCount(\'e-adults\',1)">+</button></div></div>';
-    html += '<div style="flex:1"><label class="form-label">👶 Kids</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'e-kids\',-1)">−</button><input id="e-kids" type="number" min="0" value="'+g.kids+'" /><button class="count-btn" onclick="changeCount(\'e-kids\',1)">+</button></div></div>';
+    html += '<div class="field-row">';
+    html += '<div class="field"><label>👨‍👩‍👦 Adults</label><div class="counter-field"><button class="counter-btn" onclick="changeCount(\'e-adults\',-1)">−</button><input id="e-adults" type="number" min="0" value="'+g.adults+'" /><button class="counter-btn" onclick="changeCount(\'e-adults\',1)">+</button></div></div>';
+    html += '<div class="field"><label>👶 Kids</label><div class="counter-field"><button class="counter-btn" onclick="changeCount(\'e-kids\',-1)">−</button><input id="e-kids" type="number" min="0" value="'+g.kids+'" /><button class="counter-btn" onclick="changeCount(\'e-kids\',1)">+</button></div></div>';
     html += '</div>';
-    html += '<div class="modal-actions" style="margin-top:4px"><button class="btn-primary" onclick="saveEdit()">Save Changes</button><button class="btn-secondary" onclick="editGuest=null;render()">Cancel</button></div>';
+    html += '<div class="modal-btns"><button class="btn-save" onclick="saveEdit()">Save Changes</button><button class="btn-cancel" onclick="editGuest=null;render()">Cancel</button></div>';
     html += '</div></div>';
   }
 
   document.getElementById("app").innerHTML = html;
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────────────────────────────────
 (async function(){
   await loadData();
   render();
