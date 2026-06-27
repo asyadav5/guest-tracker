@@ -55,6 +55,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F0F4F
 .fscroll::-webkit-scrollbar{display:none}
 .fp{flex-shrink:0;padding:8px 16px;border-radius:20px;border:2px solid #DDE3EE;background:#fff;color:#5A6A8A;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap;transition:all .15s}
 .fp.on{border-color:#3B6FD4;background:#3B6FD4;color:#fff}
+.fp.on-m{border-color:#C0392B;background:#C0392B;color:#fff}
+.fp.on-o{border-color:#8E44AD;background:#8E44AD;color:#fff}
 
 /* ADD */
 .btn-add{width:100%;padding:14px;border-radius:12px;border:2px dashed #B8C4DA;background:transparent;color:#5A6A8A;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:14px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -343,7 +345,8 @@ function render(){
   // Priority pills
   [["Mandatory","🔴 Mandatory"],["Optional","🔵 Optional"]].forEach(function(f){
     var on=fPrio===f[0];
-    h+='<button class="fp'+(on?" on":"")+'" onclick="setPrio(\''+(on?"all":f[0])+'\')">'+f[1]+'</button>';
+    var cls=on?(f[0]==="Mandatory"?" on-m":" on-o"):"";
+    h+='<button class="fp'+cls+'" onclick="setPrio(\''+(on?"all":f[0])+'\')">'+ f[1]+'</button>';
   });
   h+='</div>';
 
