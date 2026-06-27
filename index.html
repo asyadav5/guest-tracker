@@ -11,29 +11,37 @@
   /* HEADER */
   .header { background: linear-gradient(135deg, #1A2E5A 0%, #2C4F9E 100%); padding: 24px 20px 20px; color: #fff; }
   .header-inner { max-width: 720px; margin: 0 auto; }
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
   .header-eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.55; margin-bottom: 2px; }
   .header h1 { font-size: 22px; font-weight: 800; }
   .header-subtitle { font-size: 12px; opacity: 0.55; margin-top: 2px; }
-
-  /* STATS GRID */
   .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 18px; }
   .stat-card { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 12px; text-align: center; }
   .stat-val { font-size: 26px; font-weight: 800; line-height: 1; }
   .stat-lbl { font-size: 10px; opacity: 0.65; margin-top: 3px; }
   .stat-sub { font-size: 11px; opacity: 0.5; margin-top: 2px; }
-
-  /* HEADCOUNT ROW */
   .headcount-row { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
   .hc-pill { background: rgba(255,255,255,0.12); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-
-  /* PROGRESS */
   .progress-bar-bg { margin-top: 14px; background: rgba(255,255,255,0.15); border-radius: 10px; height: 6px; overflow: hidden; }
   .progress-bar-fill { height: 100%; background: #7EFFA0; border-radius: 10px; transition: width 0.4s; }
   .progress-pct { font-size: 10px; opacity: 0.5; margin-top: 3px; }
 
   /* MAIN */
   .main { max-width: 720px; margin: 0 auto; padding: 18px 14px; }
+
+  /* GROUP SUMMARY CARDS */
+  .group-section-title { font-size: 11px; font-weight: 700; color: #A0AABC; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .group-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-bottom: 18px; }
+  .group-card { background: #fff; border-radius: 12px; padding: 12px 14px; border: 1.5px solid #E8ECF2; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .group-card:hover { border-color: #3B6FD4; box-shadow: 0 2px 12px rgba(59,111,212,0.1); }
+  .group-card.active { border-color: #3B6FD4; background: #EBF0FF; }
+  .group-card-name { font-size: 13px; font-weight: 700; color: #1A2236; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .group-card-stats { display: flex; flex-direction: column; gap: 3px; }
+  .group-card-row { display: flex; justify-content: space-between; align-items: center; }
+  .group-card-label { font-size: 11px; color: #7A8BA6; }
+  .group-card-val { font-size: 12px; font-weight: 700; color: #1A2236; }
+  .group-card-bar { height: 4px; background: #E8ECF2; border-radius: 4px; margin-top: 8px; overflow: hidden; }
+  .group-card-bar-fill { height: 100%; background: #27AE60; border-radius: 4px; transition: width 0.4s; }
+  .group-card-pct { font-size: 10px; color: #27AE60; font-weight: 700; margin-top: 3px; }
 
   /* SEARCH */
   .search-box { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #DDE3EE; font-size: 13px; outline: none; font-family: inherit; color: #1A2236; margin-bottom: 12px; background: #fff; }
@@ -51,7 +59,7 @@
   .form-row { display: flex; gap: 8px; margin-bottom: 8px; }
   .form-input { padding: 9px 12px; border-radius: 8px; border: 1.5px solid #DDE3EE; font-size: 13px; outline: none; width: 100%; font-family: inherit; color: #1A2236; }
   .form-label { font-size: 11px; font-weight: 600; color: #7A8BA6; margin-bottom: 4px; display: block; }
-  .count-input { display: flex; align-items: center; gap: 0; border: 1.5px solid #DDE3EE; border-radius: 8px; overflow: hidden; background: #fff; }
+  .count-input { display: flex; align-items: center; border: 1.5px solid #DDE3EE; border-radius: 8px; overflow: hidden; background: #fff; }
   .count-input input { width: 48px; text-align: center; border: none; font-size: 14px; font-weight: 700; color: #1A2236; outline: none; font-family: inherit; padding: 8px 0; }
   .count-btn { background: #F1F4FA; border: none; width: 32px; height: 38px; font-size: 18px; cursor: pointer; color: #2C4F9E; font-weight: 700; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
   .count-btn:hover { background: #DDE8FF; }
@@ -75,7 +83,7 @@
   .badge-optional { background: #F0F4FF; color: #2C5282; }
   .badge-optional .badge-dot { background: #4A90D9; }
   .guest-group { font-size: 11px; color: #7A8BA6; background: #F1F4FA; border-radius: 10px; padding: 1px 8px; }
-  .guest-meta { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+  .guest-meta { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
   .guest-meta-item { font-size: 12px; color: #7A8BA6; display: flex; align-items: center; gap: 3px; }
   .guest-meta-item strong { color: #1A2236; font-weight: 700; }
   .guest-total { font-size: 11px; background: #FFF8E8; color: #B7791F; border-radius: 8px; padding: 1px 8px; font-weight: 700; }
@@ -83,10 +91,8 @@
   .btn-delete { background: #FFF0F0; border: none; color: #E74C3C; border-radius: 8px; padding: 6px 10px; font-size: 15px; cursor: pointer; line-height: 1; }
   .btn-edit { background: #F1F4FA; border: none; color: #2C4F9E; border-radius: 8px; padding: 6px 10px; font-size: 15px; cursor: pointer; line-height: 1; }
 
-  /* EMPTY */
+  /* EMPTY / FOOTER */
   .empty { text-align: center; padding: 48px 24px; color: #A0AABC; font-size: 14px; }
-
-  /* FOOTER */
   .footer { text-align: center; margin-top: 20px; font-size: 11px; color: #B0BAD0; padding-bottom: 32px; }
 
   /* MODAL */
@@ -111,6 +117,7 @@
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .header h1 { font-size: 18px; }
     .stat-val { font-size: 22px; }
+    .group-cards { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -120,11 +127,13 @@
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby_W3eMgdsKBWVDO4pRVPVUt_YpF8v1NCTdaNa1AoZrDq0QQbCfMBTLkLN56iJyoDII/exec";
 
+// Predefined group colors
+const GROUP_COLORS = ["#3B6FD4","#27AE60","#E67E22","#8E44AD","#C0392B","#16A085","#2980B9","#D35400","#7D3C98","#1A5276"];
+
 let guests = [];
 let filterStatus = "all", filterPrio = "all", filterGroup = "all", searchQ = "";
 let showForm = false, saving = false;
 let confirmDeleteId = null, editGuest = null;
-let formData = { name:"", priority:"Mandatory", group:"", adults:1, kids:0 };
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 async function loadData() {
@@ -139,20 +148,9 @@ async function loadData() {
 }
 
 function rowToGuest(r) {
-  return {
-    id: String(r[0]),
-    name: r[1]||"",
-    priority: r[2]||"Mandatory",
-    group: r[3]||"",
-    status: r[4]||"pending",
-    adults: parseInt(r[5])||1,
-    kids: parseInt(r[6])||0
-  };
+  return { id: String(r[0]), name: r[1]||"", priority: r[2]||"Mandatory", group: r[3]||"", status: r[4]||"pending", adults: parseInt(r[5])||1, kids: parseInt(r[6])||0 };
 }
-
-function guestToRow(g) {
-  return [g.id, g.name, g.priority, g.group, g.status, g.adults, g.kids];
-}
+function guestToRow(g) { return [g.id, g.name, g.priority, g.group, g.status, g.adults, g.kids]; }
 
 async function saveData() {
   saving = true; render();
@@ -177,6 +175,10 @@ function showToast(msg, type) {
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
 function getFiltered() {
   return guests.filter(function(g) {
     if (filterStatus === "pending" && g.status !== "pending") return false;
@@ -188,12 +190,27 @@ function getFiltered() {
   });
 }
 
-function getGroups() {
-  return ["all"].concat(Array.from(new Set(guests.map(function(g){ return g.group; }).filter(Boolean))));
+function getGroupStats() {
+  const map = {};
+  guests.forEach(function(g) {
+    const grp = g.group || "Ungrouped";
+    if (!map[grp]) map[grp] = { name: grp, total: 0, invited: 0, adults: 0, kids: 0, invAdults: 0, invKids: 0 };
+    map[grp].total++;
+    map[grp].adults += g.adults;
+    map[grp].kids += g.kids;
+    if (g.status === "invited") {
+      map[grp].invited++;
+      map[grp].invAdults += g.adults;
+      map[grp].invKids += g.kids;
+    }
+  });
+  return Object.values(map).sort(function(a,b){ return b.total - a.total; });
 }
 
-function escHtml(s) {
-  return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function changeCount(inputId, delta) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  inp.value = Math.max(0, (parseInt(inp.value)||0) + delta);
 }
 
 // ── Actions ───────────────────────────────────────────────────────────────────
@@ -213,15 +230,15 @@ async function deleteGuest(id) {
 async function addGuest() {
   const name = document.getElementById("f-name").value.trim();
   if (!name) { showToast("Please enter a name","error"); return; }
-  const adults = parseInt(document.getElementById("f-adults").value)||1;
-  const kids   = parseInt(document.getElementById("f-kids").value)||0;
   const ng = {
     id: Date.now().toString(), name: name,
     priority: document.getElementById("f-priority").value,
     group: document.getElementById("f-group").value.trim(),
-    status: "pending", adults: adults, kids: kids
+    status: "pending",
+    adults: parseInt(document.getElementById("f-adults").value)||1,
+    kids: parseInt(document.getElementById("f-kids").value)||0
   };
-  guests.push(ng); showForm=false; formData={name:"",priority:"Mandatory",group:"",adults:1,kids:0};
+  guests.push(ng); showForm = false;
   render(); showToast(ng.name+" added"); await saveData();
 }
 
@@ -229,106 +246,114 @@ async function saveEdit() {
   if (!editGuest) return;
   const name = document.getElementById("e-name").value.trim();
   if (!name) { showToast("Please enter a name","error"); return; }
-  const adults = parseInt(document.getElementById("e-adults").value)||1;
-  const kids   = parseInt(document.getElementById("e-kids").value)||0;
-  guests = guests.map(function(g){
+  guests = guests.map(function(g) {
     if (g.id !== editGuest.id) return g;
-    return Object.assign({},g,{
-      name: name,
-      priority: document.getElementById("e-priority").value,
-      group: document.getElementById("e-group").value.trim(),
-      adults: adults, kids: kids
-    });
+    return Object.assign({},g,{ name:name, priority:document.getElementById("e-priority").value, group:document.getElementById("e-group").value.trim(), adults:parseInt(document.getElementById("e-adults").value)||1, kids:parseInt(document.getElementById("e-kids").value)||0 });
   });
   editGuest = null; render(); showToast("Guest updated"); await saveData();
 }
 
-function changeCount(inputId, delta) {
-  const inp = document.getElementById(inputId);
-  if (!inp) return;
-  const val = Math.max(0, (parseInt(inp.value)||0) + delta);
-  inp.value = val;
-}
-
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function render() {
-  const filtered = getFiltered();
-  const total = guests.length;
-  const invitedCount  = guests.filter(function(g){ return g.status==="invited"; }).length;
-  const mandatoryLeft = guests.filter(function(g){ return g.priority==="Mandatory"&&g.status==="pending"; }).length;
-  const totalAdults   = guests.reduce(function(s,g){ return s+g.adults; },0);
-  const totalKids     = guests.reduce(function(s,g){ return s+g.kids; },0);
-  const totalPeople   = totalAdults + totalKids;
-  const invAdults     = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.adults; },0);
-  const invKids       = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.kids; },0);
+  const filtered   = getFiltered();
+  const total      = guests.length;
+  const invitedCount   = guests.filter(function(g){ return g.status==="invited"; }).length;
+  const mandatoryLeft  = guests.filter(function(g){ return g.priority==="Mandatory"&&g.status==="pending"; }).length;
+  const totalAdults    = guests.reduce(function(s,g){ return s+g.adults; },0);
+  const totalKids      = guests.reduce(function(s,g){ return s+g.kids; },0);
+  const totalPeople    = totalAdults + totalKids;
+  const invAdults      = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.adults; },0);
+  const invKids        = guests.filter(function(g){ return g.status==="invited"; }).reduce(function(s,g){ return s+g.kids; },0);
   const pct = total ? Math.round((invitedCount/total)*100) : 0;
-  const groups = getGroups();
+  const groupStats = getGroupStats();
 
   let html = "";
 
-  // HEADER
+  // ── HEADER ──
   html += '<div class="header"><div class="header-inner">';
-  html += '<div class="header-top"><div>';
   html += '<div class="header-eyebrow">Family Event</div>';
   html += '<h1>🎉 Guest Invitation Tracker</h1>';
-  html += '<div class="header-subtitle">Shared family list — updates live for everyone</div>';
-  html += '</div></div>';
-
-  // STATS GRID
+  html += '<div class="header-subtitle">Live shared list — updates for everyone instantly</div>';
   html += '<div class="stats-grid">';
   html += '<div class="stat-card"><div class="stat-val">'+total+'</div><div class="stat-lbl">Guest Families</div></div>';
   html += '<div class="stat-card"><div class="stat-val" style="color:#7EFFA0">'+invitedCount+'</div><div class="stat-lbl">Invited</div><div class="stat-sub">'+mandatoryLeft+' mandatory left</div></div>';
   html += '<div class="stat-card"><div class="stat-val" style="color:#FFD580">'+(total-invitedCount)+'</div><div class="stat-lbl">Pending</div></div>';
   html += '<div class="stat-card"><div class="stat-val" style="color:#A0C4FF">'+totalPeople+'</div><div class="stat-lbl">Total People</div><div class="stat-sub">'+totalAdults+' adults · '+totalKids+' kids</div></div>';
   html += '</div>';
-
-  // HEADCOUNT ROW
   html += '<div class="headcount-row">';
   html += '<div class="hc-pill">👨‍👩‍👦 Expected: <strong style="color:#7EFFA0">'+totalPeople+' people</strong></div>';
-  html += '<div class="hc-pill">✅ Confirmed: <strong style="color:#7EFFA0">'+(invAdults+invKids)+'</strong> ('+(invAdults)+' adults · '+(invKids)+' kids)</div>';
+  html += '<div class="hc-pill">✅ Confirmed: <strong style="color:#7EFFA0">'+(invAdults+invKids)+' people</strong> ('+invAdults+' adults · '+invKids+' kids)</div>';
   html += '</div>';
-
-  // PROGRESS
   html += '<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:'+pct+'%"></div></div>';
   html += '<div class="progress-pct">'+pct+'% families invited</div>';
   html += '</div></div>';
 
-  // MAIN
+  // ── MAIN ──
   html += '<div class="main">';
 
-  // SEARCH
+  // ── GROUP SUMMARY CARDS ──
+  if (groupStats.length > 0) {
+    html += '<div class="group-section-title">By Group</div>';
+    html += '<div class="group-cards">';
+
+    // ALL card
+    const allPct = total ? Math.round((invitedCount/total)*100) : 0;
+    html += '<div class="group-card'+(filterGroup==="all"?" active":"")+'" onclick="filterGroup=\'all\';render()">';
+    html += '<div class="group-card-name">🌐 All Groups</div>';
+    html += '<div class="group-card-stats">';
+    html += '<div class="group-card-row"><span class="group-card-label">Families</span><span class="group-card-val">'+total+'</span></div>';
+    html += '<div class="group-card-row"><span class="group-card-label">People</span><span class="group-card-val">'+totalPeople+'</span></div>';
+    html += '<div class="group-card-row"><span class="group-card-label">Invited</span><span class="group-card-val" style="color:#27AE60">'+invitedCount+' / '+total+'</span></div>';
+    html += '</div>';
+    html += '<div class="group-card-bar"><div class="group-card-bar-fill" style="width:'+allPct+'%"></div></div>';
+    html += '<div class="group-card-pct">'+allPct+'% invited</div>';
+    html += '</div>';
+
+    groupStats.forEach(function(gs, idx) {
+      const gPct = gs.total ? Math.round((gs.invited/gs.total)*100) : 0;
+      const color = GROUP_COLORS[idx % GROUP_COLORS.length];
+      const gPeople = gs.adults + gs.kids;
+      const isActive = filterGroup === gs.name;
+      html += '<div class="group-card'+(isActive?" active":"")+'" onclick="filterGroup=\''+escHtml(gs.name)+'\';render()" style="border-left:3px solid '+color+'">';
+      html += '<div class="group-card-name" style="color:'+color+'">'+escHtml(gs.name)+'</div>';
+      html += '<div class="group-card-stats">';
+      html += '<div class="group-card-row"><span class="group-card-label">Families</span><span class="group-card-val">'+gs.total+'</span></div>';
+      html += '<div class="group-card-row"><span class="group-card-label">People</span><span class="group-card-val">'+gPeople+' <span style="font-size:10px;color:#A0AABC">('+gs.adults+'A·'+gs.kids+'K)</span></span></div>';
+      html += '<div class="group-card-row"><span class="group-card-label">Invited</span><span class="group-card-val" style="color:#27AE60">'+gs.invited+' / '+gs.total+'</span></div>';
+      html += '</div>';
+      html += '<div class="group-card-bar"><div class="group-card-bar-fill" style="width:'+gPct+'%;background:'+color+'"></div></div>';
+      html += '<div class="group-card-pct" style="color:'+color+'">'+gPct+'% invited</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  // ── SEARCH ──
   html += '<input class="search-box" placeholder="🔍  Search by name…" value="'+escHtml(searchQ)+'" oninput="searchQ=this.value;render()" />';
 
-  // FILTERS
+  // ── STATUS + PRIORITY FILTERS ──
   html += '<div class="filters">';
   [["all","All"],["pending","⏳ Pending"],["invited","✅ Invited"]].forEach(function(f){
-    html += '<button class="pill'+(filterStatus===f[0]?' active':'')+'" onclick="filterStatus=\''+f[0]+'\';render()">'+f[1]+'</button>';
+    html += '<button class="pill'+(filterStatus===f[0]?" active":"")+'" onclick="filterStatus=\''+f[0]+'\';render()">'+f[1]+'</button>';
   });
   html += '<div class="pill-divider"></div>';
   [["all","All Types"],["Mandatory","Mandatory"],["Optional","Optional"]].forEach(function(f){
-    html += '<button class="pill'+(filterPrio===f[0]?' active':'')+'" onclick="filterPrio=\''+f[0]+'\';render()">'+f[1]+'</button>';
+    html += '<button class="pill'+(filterPrio===f[0]?" active":"")+'" onclick="filterPrio=\''+f[0]+'\';render()">'+f[1]+'</button>';
   });
-  if (groups.length > 1) {
-    html += '<div class="pill-divider"></div>';
-    groups.forEach(function(g){
-      html += '<button class="pill'+(filterGroup===g?' active':'')+'" onclick="filterGroup=\''+escHtml(g)+'\';render()">'+(g==="all"?"All Groups":escHtml(g))+'</button>';
-    });
-  }
   html += '</div>';
 
-  // ADD FORM
+  // ── ADD FORM ──
   if (showForm) {
-    html += '<div class="add-form">';
-    html += '<h3>➕ New Guest</h3>';
-    html += '<div class="form-row"><input id="f-name" class="form-input" placeholder="Full Name *" value="'+escHtml(formData.name)+'" /></div>';
+    html += '<div class="add-form"><h3>➕ New Guest</h3>';
+    html += '<div class="form-row"><input id="f-name" class="form-input" placeholder="Full Name *" /></div>';
     html += '<div class="form-row">';
-    html += '<select id="f-priority" class="form-input" style="flex:1"><option'+(formData.priority==="Mandatory"?" selected":"")+'>Mandatory</option><option'+(formData.priority==="Optional"?" selected":"")+'>Optional</option></select>';
-    html += '<input id="f-group" class="form-input" placeholder="Group / Family" style="flex:2" value="'+escHtml(formData.group)+'" />';
+    html += '<select id="f-priority" class="form-input" style="flex:1"><option>Mandatory</option><option>Optional</option></select>';
+    html += '<input id="f-group" class="form-input" placeholder="Group (e.g. Ajeet Friends)" style="flex:2" />';
     html += '</div>';
     html += '<div class="section-label" style="margin-top:8px">Headcount</div>';
     html += '<div class="form-row">';
-    html += '<div style="flex:1"><label class="form-label">👨‍👩‍👦 Adults</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'f-adults\',-1)">−</button><input id="f-adults" type="number" min="0" value="'+formData.adults+'" /><button class="count-btn" onclick="changeCount(\'f-adults\',1)">+</button></div></div>';
-    html += '<div style="flex:1"><label class="form-label">👶 Kids (under 12)</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'f-kids\',-1)">−</button><input id="f-kids" type="number" min="0" value="'+formData.kids+'" /><button class="count-btn" onclick="changeCount(\'f-kids\',1)">+</button></div></div>';
+    html += '<div style="flex:1"><label class="form-label">👨‍👩‍👦 Adults</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'f-adults\',-1)">−</button><input id="f-adults" type="number" min="0" value="1" /><button class="count-btn" onclick="changeCount(\'f-adults\',1)">+</button></div></div>';
+    html += '<div style="flex:1"><label class="form-label">👶 Kids (under 12)</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'f-kids\',-1)">−</button><input id="f-kids" type="number" min="0" value="0" /><button class="count-btn" onclick="changeCount(\'f-kids\',1)">+</button></div></div>';
     html += '</div>';
     html += '<div class="form-actions"><button class="btn-primary" onclick="addGuest()">Add Guest</button><button class="btn-secondary" onclick="showForm=false;render()">Cancel</button></div>';
     html += '</div>';
@@ -336,15 +361,30 @@ function render() {
     html += '<button class="btn-add-ghost" onclick="showForm=true;render()">+ Add Guest</button>';
   }
 
-  // GUEST LIST
+  // ── GUEST LIST ──
   if (filtered.length === 0) {
     html += '<div class="empty">'+(guests.length===0?"No guests yet — add your first guest above.":"No guests match your filters.")+'</div>';
   } else {
+    // Show group header if filtered by group
+    if (filterGroup !== "all") {
+      const gs = getGroupStats().find(function(s){ return s.name===filterGroup; });
+      if (gs) {
+        const gPeople = gs.adults + gs.kids;
+        html += '<div style="background:#fff;border-radius:10px;padding:12px 16px;border:1.5px solid #DDE3EE;margin-bottom:12px;display:flex;gap:20px;flex-wrap:wrap">';
+        html += '<div><div style="font-size:11px;color:#A0AABC">Families</div><div style="font-size:18px;font-weight:800;color:#1A2236">'+gs.total+'</div></div>';
+        html += '<div><div style="font-size:11px;color:#A0AABC">Total People</div><div style="font-size:18px;font-weight:800;color:#1A2236">'+gPeople+'</div></div>';
+        html += '<div><div style="font-size:11px;color:#A0AABC">Adults</div><div style="font-size:18px;font-weight:800;color:#1A2236">'+gs.adults+'</div></div>';
+        html += '<div><div style="font-size:11px;color:#A0AABC">Kids</div><div style="font-size:18px;font-weight:800;color:#1A2236">'+gs.kids+'</div></div>';
+        html += '<div><div style="font-size:11px;color:#A0AABC">Invited</div><div style="font-size:18px;font-weight:800;color:#27AE60">'+gs.invited+' / '+gs.total+'</div></div>';
+        html += '</div>';
+      }
+    }
+
     filtered.forEach(function(g) {
-      const inv = g.status==="invited";
+      const inv = g.status === "invited";
       const totalG = g.adults + g.kids;
-      html += '<div class="guest-card'+(inv?' invited':'')+'">';
-      html += '<button class="check-btn'+(inv?' checked':'')+'" onclick="toggleGuest(\''+g.id+'\')" title="'+(inv?'Mark as Pending':'Mark as Invited')+'">'+(inv?'✓':'')+'</button>';
+      html += '<div class="guest-card'+(inv?" invited":"")+'">';
+      html += '<button class="check-btn'+(inv?" checked":"")+'" onclick="toggleGuest(\''+g.id+'\')" title="'+(inv?"Mark Pending":"Mark Invited")+'">'+(inv?"✓":"")+'</button>';
       html += '<div class="guest-info">';
       html += '<div class="guest-name-row">';
       html += '<span class="guest-name">'+escHtml(g.name)+'</span>';
@@ -352,41 +392,39 @@ function render() {
       if (g.group) html += '<span class="guest-group">'+escHtml(g.group)+'</span>';
       html += '</div>';
       html += '<div class="guest-meta">';
-      html += '<span class="guest-meta-item">👨‍👩‍👦 <strong>'+g.adults+'</strong> adult'+(g.adults!==1?'s':'')+'</span>';
-      if (g.kids > 0) html += '<span class="guest-meta-item">👶 <strong>'+g.kids+'</strong> kid'+(g.kids!==1?'s':'')+'</span>';
-      html += '<span class="guest-total">'+totalG+' '+(totalG===1?'person':'people')+'</span>';
-      html += '</div>';
-      html += '</div>';
+      html += '<span class="guest-meta-item">👨‍👩‍👦 <strong>'+g.adults+'</strong> adult'+(g.adults!==1?"s":"")+'</span>';
+      if (g.kids>0) html += '<span class="guest-meta-item">👶 <strong>'+g.kids+'</strong> kid'+(g.kids!==1?"s":"")+'</span>';
+      html += '<span class="guest-total">'+totalG+' '+(totalG===1?"person":"people")+'</span>';
+      html += '</div></div>';
       html += '<div class="guest-actions">';
-      html += '<button class="btn-edit" onclick="editGuest='+JSON.stringify(g).replace(/"/g,"&quot;")+';render()" title="Edit">✏️</button>';
+      html += '<button class="btn-edit" onclick=\'editGuest='+JSON.stringify(g)+';render()\' title="Edit">✏️</button>';
       html += '<button class="btn-delete" onclick="confirmDeleteId=\''+g.id+'\';render()" title="Remove">🗑️</button>';
-      html += '</div>';
-      html += '</div>';
+      html += '</div></div>';
     });
   }
 
-  html += '<div class="footer">'+(saving?'Saving…':'Showing '+filtered.length+' of '+total+' guests · '+totalPeople+' total people')+'</div>';
+  html += '<div class="footer">'+(saving?"Saving…":"Showing "+filtered.length+" of "+total+" guests · "+totalPeople+" total people expected")+'</div>';
   html += '</div>';
 
-  // DELETE MODAL
+  // ── DELETE MODAL ──
   if (confirmDeleteId) {
     const g = guests.find(function(x){ return x.id===confirmDeleteId; });
     html += '<div class="modal-overlay"><div class="modal">';
     html += '<h2>Remove Guest?</h2>';
-    html += '<p>Remove <strong>'+escHtml(g?g.name:"this guest")+'</strong> from the list? This cannot be undone.</p>';
+    html += '<p>Are you sure you want to remove <strong>'+escHtml(g?g.name:"this guest")+'</strong> from the list?<br><br>This cannot be undone.</p>';
     html += '<div class="modal-actions">';
     html += '<button class="btn-danger" onclick="deleteGuest(\''+confirmDeleteId+'\')">Yes, Remove</button>';
     html += '<button class="btn-secondary" onclick="confirmDeleteId=null;render()">Cancel</button>';
     html += '</div></div></div>';
   }
 
-  // EDIT MODAL
+  // ── EDIT MODAL ──
   if (editGuest) {
     const g = editGuest;
     html += '<div class="modal-overlay"><div class="modal">';
     html += '<h2>✏️ Edit Guest</h2>';
-    html += '<div style="margin-bottom:8px"><label class="form-label">Name</label><input id="e-name" class="form-input" value="'+escHtml(g.name)+'" style="margin-bottom:0" /></div>';
-    html += '<div class="form-row" style="margin-top:8px">';
+    html += '<div style="margin-bottom:8px"><label class="form-label">Name</label><input id="e-name" class="form-input" value="'+escHtml(g.name)+'" /></div>';
+    html += '<div class="form-row">';
     html += '<div style="flex:1"><label class="form-label">Type</label><select id="e-priority" class="form-input"><option'+(g.priority==="Mandatory"?" selected":"")+'>Mandatory</option><option'+(g.priority==="Optional"?" selected":"")+'>Optional</option></select></div>';
     html += '<div style="flex:2"><label class="form-label">Group</label><input id="e-group" class="form-input" value="'+escHtml(g.group)+'" /></div>';
     html += '</div>';
@@ -395,10 +433,8 @@ function render() {
     html += '<div style="flex:1"><label class="form-label">👨‍👩‍👦 Adults</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'e-adults\',-1)">−</button><input id="e-adults" type="number" min="0" value="'+g.adults+'" /><button class="count-btn" onclick="changeCount(\'e-adults\',1)">+</button></div></div>';
     html += '<div style="flex:1"><label class="form-label">👶 Kids</label><div class="count-input"><button class="count-btn" onclick="changeCount(\'e-kids\',-1)">−</button><input id="e-kids" type="number" min="0" value="'+g.kids+'" /><button class="count-btn" onclick="changeCount(\'e-kids\',1)">+</button></div></div>';
     html += '</div>';
-    html += '<div class="modal-actions" style="margin-top:4px">';
-    html += '<button class="btn-primary" onclick="saveEdit()">Save Changes</button>';
-    html += '<button class="btn-secondary" onclick="editGuest=null;render()">Cancel</button>';
-    html += '</div></div></div>';
+    html += '<div class="modal-actions" style="margin-top:4px"><button class="btn-primary" onclick="saveEdit()">Save Changes</button><button class="btn-secondary" onclick="editGuest=null;render()">Cancel</button></div>';
+    html += '</div></div>';
   }
 
   document.getElementById("app").innerHTML = html;
