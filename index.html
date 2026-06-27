@@ -215,7 +215,8 @@ function filtered(){
     if(fFilter==="invited"&&g.status!=="invited") return false;
     if(fFilter==="Mandatory"&&g.priority!=="Mandatory") return false;
     if(fFilter==="Optional"&&g.priority!=="Optional") return false;
-    if(fGroup!=="all"&&g.group!==fGroup) return false;
+    var gname=g.group||"Ungrouped";
+    if(fGroup!=="all"&&gname!==fGroup) return false;
     if(searchQ&&g.name.toLowerCase().indexOf(searchQ.toLowerCase())===-1) return false;
     return true;
   });
@@ -408,7 +409,8 @@ function render(){
       h+='<div class="cname">'+esc(g.name)+'</div>';
       h+='<div class="ctags">';
       h+='<span class="badge '+(g.priority==="Mandatory"?"bm":"bo")+'"><span class="bdot"></span>'+esc(g.priority)+'</span>';
-      if(g.group) h+='<span class="tgrp">'+esc(g.group)+'</span>';
+      var gtag=g.group||'Ungrouped';
+      h+='<span class="tgrp">'+esc(gtag)+'</span>';
       h+='</div>';
       h+='<div class="ccounts">';
       h+='<span class="ci">👨‍👩‍👦 <strong>'+g.adults+'</strong> adult'+(g.adults!==1?"s":"")+'</span>';
