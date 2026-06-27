@@ -32,8 +32,13 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F0F4F
 .sec-title{font-size:11px;font-weight:700;color:#8A97B0;text-transform:uppercase;letter-spacing:1px;margin:4px 0 10px}
 
 /* GROUP CARDS */
-.gscroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:16px}
+.gscroll-wrap{position:relative;margin-bottom:16px}
+.gscroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth}
 .gscroll::-webkit-scrollbar{display:none}
+.gscroll-btn{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:#fff;border:1.5px solid #DDE3EE;box-shadow:0 2px 8px rgba(0,0,0,0.12);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#2C4F9E;z-index:10;transition:all 0.2s}
+.gscroll-btn:hover{background:#EBF0FF;border-color:#3B6FD4}
+.gscroll-btn.left{left:-12px}
+.gscroll-btn.right{right:-12px}
 .gc{flex-shrink:0;width:148px;background:#fff;border-radius:14px;padding:12px;border:2px solid #E8ECF2;cursor:pointer;transition:all .2s}
 .gc.active{border-color:#3B6FD4;background:#EBF0FF}
 .gcn{font-size:13px;font-weight:800;color:#1A2236;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -306,7 +311,9 @@ function render(){
     h+='<span style="font-size:13px;color:#3B6FD4;font-weight:700;display:flex;align-items:center;gap:4px">'+(groupExpanded?'▲ Collapse':'▼ Expand')+'</span>';
     h+='</div>';
     if(groupExpanded){
-    h+='<div class="gscroll">';
+    h+='<div class="gscroll-wrap">';
+    h+='<button class="gscroll-btn left" onclick="document.getElementById(\'gs\').scrollBy({left:-300,behavior:\'smooth\'})">&#8249;</button>';
+    h+='<div class="gscroll" id="gs">';
 
     // ALL card
     var ap=tot?Math.round((invC/tot)*100):0;
@@ -333,6 +340,8 @@ function render(){
       h+='<div class="gp" style="color:'+col+'">'+gPct+'%</div>';
       h+='</div>';
     });
+    h+='</div>';
+    h+='<button class="gscroll-btn right" onclick="document.getElementById(\'gs\').scrollBy({left:300,behavior:\'smooth\'});">&#8250;</button>';
     h+='</div>';
     } // end groupExpanded
   }
