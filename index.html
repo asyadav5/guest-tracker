@@ -207,6 +207,14 @@ function getGroupStats() {
   return Object.values(map).sort(function(a,b){ return b.total - a.total; });
 }
 
+function handleSearch(el) {
+  searchQ = el.value;
+  const pos = el.selectionStart;
+  render();
+  const box = document.getElementById("search-box");
+  if (box) { box.focus(); box.setSelectionRange(pos, pos); }
+}
+
 function changeCount(inputId, delta) {
   const inp = document.getElementById(inputId);
   if (!inp) return;
@@ -329,7 +337,7 @@ function render() {
   }
 
   // ── SEARCH ──
-  html += '<input class="search-box" placeholder="🔍  Search by name…" value="'+escHtml(searchQ)+'" oninput="searchQ=this.value;render()" />';
+  html += '<input id="search-box" class="search-box" placeholder="🔍  Search by name…" value="'+escHtml(searchQ)+'" oninput="handleSearch(this)" />';
 
   // ── STATUS + PRIORITY FILTERS ──
   html += '<div class="filters">';
