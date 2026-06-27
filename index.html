@@ -152,10 +152,11 @@ const GC=["#3B6FD4","#27AE60","#E67E22","#8E44AD","#C0392B","#16A085","#2980B9",
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 var guests=[], fFilter="all", fGroup="all", searchQ="";
-var showForm=false, saving=false, confirmId=null, editG=null;
+var showForm=false, saving=false, confirmId=null, editG=null, groupExpanded=false;
 
 // ── FILTER SETTERS (called from onclick) ──────────────────────────────────────
 function setFilter(v){ fFilter=(fFilter===v?"all":v); render(); }
+function toggleGroups(){ groupExpanded=!groupExpanded; render(); }
 function setGroup(v){  fGroup=v;  render(); }
 function setSearch(v){ searchQ=v; render(); }
 
@@ -300,7 +301,11 @@ function render(){
 
   // GROUP CARDS
   if(grps.length>0){
-    h+='<div class="sec-title">Browse by Group</div>';
+    h+='<div class="sec-title" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="toggleGroups()">';
+    h+='<span>Browse by Group</span>';
+    h+='<span style="font-size:13px;color:#3B6FD4;font-weight:700;display:flex;align-items:center;gap:4px">'+(groupExpanded?'▲ Collapse':'▼ Expand')+'</span>';
+    h+='</div>';
+    if(groupExpanded){
     h+='<div class="gscroll">';
 
     // ALL card
@@ -329,6 +334,7 @@ function render(){
       h+='</div>';
     });
     h+='</div>';
+    } // end groupExpanded
   }
 
   // SEARCH
