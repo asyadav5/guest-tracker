@@ -339,7 +339,7 @@ function render(){
   // Status pills
   [["all","All"],["pending","⏳ Pending"],["invited","✅ Invited"]].forEach(function(f){
     var on=fFilter===f[0];
-    h+='<button class="fp'+(on?" on":"")+'" onclick="setStatus(\''+f[0]+'\')">'+f[1]+'</button>';
+    h+='<button class="fp'+(on?" on":"")+'" onclick="setFilter(\''+f[0]+'\')">'+f[1]+'</button>';
   });
   // Priority pills
   [["Mandatory","🔴 Mandatory"],["Optional","🔵 Optional"]].forEach(function(f){
