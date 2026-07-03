@@ -139,6 +139,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F0F4F
 .spin{width:32px;height:32px;border:3px solid #DDE3EE;border-top-color:#2C4F9E;border-radius:50%;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 
+/* CONFETTI */
+.cp{position:fixed;pointer-events:none;z-index:9999;border-radius:2px;animation:cf 1.8s ease-in forwards}
+@keyframes cf{0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}100%{opacity:0;transform:translateY(100vh) rotate(720deg) scale(0.3)}}
+
 @media(min-width:600px){
   .hdr{padding:28px 24px 22px}.hdr h1{font-size:24px}
   .stats{grid-template-columns:repeat(4,1fr)}
@@ -159,11 +163,34 @@ const GC=["#3B6FD4","#27AE60","#E67E22","#8E44AD","#C0392B","#16A085","#2980B9",
 var guests=[], fFilter="all", fGroup="all", searchQ="";
 var showForm=false, saving=false, confirmId=null, editG=null, groupExpanded=false;
 
-// ── FILTER SETTERS (called from onclick) ──────────────────────────────────────
+// ── FILTER SETTERS ────────────────────────────────────────────────────────────
 function setFilter(v){ fFilter=(fFilter===v?"all":v); render(); }
 function toggleGroups(){ groupExpanded=!groupExpanded; render(); }
-function setGroup(v){  fGroup=v;  render(); }
+function setGroup(v){ fGroup=v; render(); }
 function setSearch(v){ searchQ=v; render(); }
+
+// ── CONFETTI ──────────────────────────────────────────────────────────────────
+function launchConfetti(){
+  var colors=["#FFD700","#FF6B6B","#7EFFA0","#A0C4FF","#FF9FF3","#FFA500","#00D2FF","#FF4757","#FF6B9D","#C44DFF"];
+  for(var i=0;i<80;i++){
+    (function(i){
+      setTimeout(function(){
+        var el=document.createElement("div");
+        el.className="cp";
+        el.style.left=Math.random()*100+"vw";
+        el.style.top="-12px";
+        el.style.width=(Math.random()*10+6)+"px";
+        el.style.height=(Math.random()*10+6)+"px";
+        el.style.background=colors[Math.floor(Math.random()*colors.length)];
+        el.style.borderRadius=Math.random()>0.5?"50%":"2px";
+        el.style.animationDuration=(Math.random()*1.2+1)+"s";
+        el.style.animationDelay=(Math.random()*0.4)+"s";
+        document.body.appendChild(el);
+        setTimeout(function(){el.remove();},2500);
+      },i*20);
+    })(i);
+  }
+}
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 async function loadData(){
@@ -174,7 +201,15 @@ async function loadData(){
     var data=rows.slice(1);
     var start=(data[0]&&data[0][0]==="__SETTINGS__")?1:0;
     guests=data.slice(start).filter(function(r){return r[0];}).map(function(r){
-      return{id:String(r[0]),name:r[1]||"",priority:r[2]||"Mandatory",group:r[3]||"",status:r[4]||"pending",adults:parseInt(r[5])||1,kids:parseInt(r[6])||0};
+      return{
+        id:String(r[0]),
+        name:r[1]||"",
+        priority:r[2]||"Mandatory",
+        group:r[3]||"",
+        status:(r[4]||"pending").toString().toLowerCase().trim(),
+        adults:parseInt(r[5])||1,
+        kids:parseInt(r[6])||0
+      };
     });
   }catch(e){toast("Could not load data","e");}
 }
@@ -237,8 +272,12 @@ function cc(id,d){var el=document.getElementById(id);if(el)el.value=Math.max(0,(
 
 // ── ACTIONS ───────────────────────────────────────────────────────────────────
 async function toggle(id){
+  var g=guests.find(function(x){return x.id===id;});
+  var wasInvited=g&&g.status==="invited";
   guests=guests.map(function(g){return g.id!==id?g:Object.assign({},g,{status:g.status==="invited"?"pending":"invited"});});
-  render(); await saveData();
+  if(!wasInvited) launchConfetti();
+  render();
+  await saveData();
 }
 
 async function delGuest(id){
@@ -309,42 +348,42 @@ function render(){
   if(grps.length>0){
     h+='<div class="sec-title" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="toggleGroups()">';
     h+='<span>Browse by Group</span>';
-    h+='<span style="font-size:13px;color:#3B6FD4;font-weight:700;display:flex;align-items:center;gap:4px">'+(groupExpanded?'▲ Collapse':'▼ Expand')+'</span>';
+    h+='<span style="font-size:13px;color:#3B6FD4;font-weight:700">'+(groupExpanded?'▲ Collapse':'▼ Expand')+'</span>';
     h+='</div>';
     if(groupExpanded){
-    h+='<div class="gscroll-wrap">';
-    h+='<button class="gscroll-btn left" onclick="document.getElementById(\'gs\').scrollBy({left:-300,behavior:\'smooth\'})">&#8249;</button>';
-    h+='<div class="gscroll" id="gs">';
+      h+='<div class="gscroll-wrap">';
+      h+='<button class="gscroll-btn left" onclick="event.stopPropagation();document.getElementById(\'gs\').scrollBy({left:-300,behavior:\'smooth\'})">&#8249;</button>';
+      h+='<div class="gscroll" id="gs">';
 
-    // ALL card
-    var ap=tot?Math.round((invC/tot)*100):0;
-    h+='<div class="gc'+(fGroup==="all"?" active":"")+'" onclick="setGroup(\'all\')">';
-    h+='<div class="gcn" style="color:#2C4F9E">🌐 All Groups</div>';
-    h+='<div class="gsr"><span class="gsl">Families</span><span class="gsv">'+tot+'</span></div>';
-    h+='<div class="gsr"><span class="gsl">People</span><span class="gsv">'+totP+'</span></div>';
-    h+='<div class="gsr"><span class="gsl">Invited</span><span class="gsv" style="color:#27AE60">'+invC+'/'+tot+'</span></div>';
-    h+='<div class="gbb"><div class="gbf" style="width:'+ap+'%;background:#3B6FD4"></div></div>';
-    h+='<div class="gp" style="color:#3B6FD4">'+ap+'%</div>';
-    h+='</div>';
-
-    grps.forEach(function(gs,i){
-      var col=GC[i%GC.length];
-      var gP=gs.adults+gs.kids;
-      var gPct=gs.total?Math.round((gs.inv/gs.total)*100):0;
-      var act=fGroup===gs.name;
-      h+='<div class="gc'+(act?" active":"")+'" onclick="setGroup(\''+esc(gs.name)+'\')" style="border-top:3px solid '+col+'">';
-      h+='<div class="gcn" style="color:'+col+'">'+esc(gs.name)+'</div>';
-      h+='<div class="gsr"><span class="gsl">Families</span><span class="gsv">'+gs.total+'</span></div>';
-      h+='<div class="gsr"><span class="gsl">People</span><span class="gsv">'+gP+'</span></div>';
-      h+='<div class="gsr"><span class="gsl">Invited</span><span class="gsv" style="color:'+col+'">'+gs.inv+'/'+gs.total+'</span></div>';
-      h+='<div class="gbb"><div class="gbf" style="width:'+gPct+'%;background:'+col+'"></div></div>';
-      h+='<div class="gp" style="color:'+col+'">'+gPct+'%</div>';
+      var ap=tot?Math.round((invC/tot)*100):0;
+      h+='<div class="gc'+(fGroup==="all"?" active":"")+'" onclick="setGroup(\'all\')">';
+      h+='<div class="gcn" style="color:#2C4F9E">🌐 All Groups</div>';
+      h+='<div class="gsr"><span class="gsl">Families</span><span class="gsv">'+tot+'</span></div>';
+      h+='<div class="gsr"><span class="gsl">People</span><span class="gsv">'+totP+'</span></div>';
+      h+='<div class="gsr"><span class="gsl">Invited</span><span class="gsv" style="color:#27AE60">'+invC+'/'+tot+'</span></div>';
+      h+='<div class="gbb"><div class="gbf" style="width:'+ap+'%;background:#3B6FD4"></div></div>';
+      h+='<div class="gp" style="color:#3B6FD4">'+ap+'%</div>';
       h+='</div>';
-    });
-    h+='</div>';
-    h+='<button class="gscroll-btn right" onclick="document.getElementById(\'gs\').scrollBy({left:300,behavior:\'smooth\'});">&#8250;</button>';
-    h+='</div>';
-    } // end groupExpanded
+
+      grps.forEach(function(gs,i){
+        var col=GC[i%GC.length];
+        var gP=gs.adults+gs.kids;
+        var gPct=gs.total?Math.round((gs.inv/gs.total)*100):0;
+        var act=fGroup===gs.name;
+        h+='<div class="gc'+(act?" active":"")+'" onclick="setGroup(\''+esc(gs.name)+'\')" style="border-top:3px solid '+col+'">';
+        h+='<div class="gcn" style="color:'+col+'">'+esc(gs.name)+'</div>';
+        h+='<div class="gsr"><span class="gsl">Families</span><span class="gsv">'+gs.total+'</span></div>';
+        h+='<div class="gsr"><span class="gsl">People</span><span class="gsv">'+gP+'</span></div>';
+        h+='<div class="gsr"><span class="gsl">Invited</span><span class="gsv" style="color:'+col+'">'+gs.inv+'/'+gs.total+'</span></div>';
+        h+='<div class="gbb"><div class="gbf" style="width:'+gPct+'%;background:'+col+'"></div></div>';
+        h+='<div class="gp" style="color:'+col+'">'+gPct+'%</div>';
+        h+='</div>';
+      });
+
+      h+='</div>';
+      h+='<button class="gscroll-btn right" onclick="event.stopPropagation();document.getElementById(\'gs\').scrollBy({left:300,behavior:\'smooth\'})">&#8250;</button>';
+      h+='</div>';
+    }
   }
 
   // SEARCH
@@ -352,20 +391,18 @@ function render(){
 
   // FILTER PILLS
   h+='<div class="fscroll">';
-  // Status pills
   [["all","All"],["pending","⏳ Pending"],["invited","✅ Invited"]].forEach(function(f){
     var on=fFilter===f[0];
     h+='<button class="fp'+(on?" on":"")+'" onclick="setFilter(\''+f[0]+'\')">'+f[1]+'</button>';
   });
-  // Priority pills
   [["Mandatory","🔴 Mandatory"],["Optional","🔵 Optional"]].forEach(function(f){
     var on=fFilter===f[0];
     var cls=on?(f[0]==="Mandatory"?" on-m":" on-o"):"";
-    h+='<button class="fp'+cls+'" onclick="setFilter(\''+ f[0]+'\')">'+ f[1]+'</button>';
+    h+='<button class="fp'+cls+'" onclick="setFilter(\''+f[0]+'\')">'+f[1]+'</button>';
   });
   h+='</div>';
 
-  // ADD
+  // ADD FORM
   if(showForm){
     h+='<div class="aform"><div class="aform-title">➕ Add New Guest</div>';
     h+='<div class="field"><label>Full Name *</label><input id="fn" placeholder="e.g. Fufa Hoshiyar" /></div>';
@@ -409,8 +446,7 @@ function render(){
       h+='<div class="cname">'+esc(g.name)+'</div>';
       h+='<div class="ctags">';
       h+='<span class="badge '+(g.priority==="Mandatory"?"bm":"bo")+'"><span class="bdot"></span>'+esc(g.priority)+'</span>';
-      var gtag=g.group||'Ungrouped';
-      h+='<span class="tgrp">'+esc(gtag)+'</span>';
+      h+='<span class="tgrp">'+esc(g.group||"Ungrouped")+'</span>';
       h+='</div>';
       h+='<div class="ccounts">';
       h+='<span class="ci">👨‍👩‍👦 <strong>'+g.adults+'</strong> adult'+(g.adults!==1?"s":"")+'</span>';
